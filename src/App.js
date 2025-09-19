@@ -11,6 +11,15 @@ import CommunityNearby from './components/CommunityNearby';
 import HelpDeskBlockchain from './components/HelpDeskBlockchain';
 import HelpDeskSOS from './components/HelpDeskSOS';
 import SafetyScore from './components/SafetyScore';
+import HelpDesk from './components/HelpDesk';
+import MyPlanner from './components/MyPlanner';
+import OfflineMode from './components/OfflineMode';
+import MyWallet from './components/MyWallet';
+import GettingStarted from './components/GettingStarted';
+import WelcomeOnboarding from './components/WelcomeOnboarding';
+import SafetyZoneInfo from './components/SafetyZoneInfo';
+import CommunityGuidelines from './components/CommunityGuidelines';
+import ProfileManagement from './components/ProfileManagement';
 
 const App = () => {
   const [currentPage, setCurrentPage] = useState('home');
@@ -28,6 +37,7 @@ const App = () => {
 
   const handlePlanner = () => {
     setShowPlanner(true);
+    navigateToPage('my-planner'); // Navigate to actual planner page
     setTimeout(() => setShowPlanner(false), 2000);
   };
 
@@ -85,7 +95,7 @@ const App = () => {
       {/* 3. Offline Mode (Center) */}
       <div 
         className={`flex flex-col items-center justify-center cursor-pointer transition-all p-2 rounded-lg ${activeTab === 'offline' ? 'bg-white/25 backdrop-blur-sm' : 'hover:bg-white/15'}`}
-        onClick={() => { setActiveTab('offline'); alert('Offline Mode Activated!\n📱 Core features now work without internet\n🛰️ Satellite connectivity enabled'); }}
+        onClick={() => { setActiveTab('offline'); navigateToPage('offline-mode'); }}
       >
         <svg className="w-6 h-6 text-white mb-1" fill="currentColor" viewBox="0 0 24 24">
           <path d="M1 9l2 2c4.97-4.97 13.03-4.97 18 0l2-2C16.93 2.93 7.07 2.93 1 9zm8 8l3 3 3-3c-1.65-1.66-4.34-1.66-6 0zm-4-4l2 2c2.76-2.76 7.24-2.76 10 0l2-2C15.14 9.14 8.87 9.14 5 13z"/>
@@ -97,7 +107,7 @@ const App = () => {
       {/* 4. Wallet */}
       <div 
         className={`flex flex-col items-center justify-center cursor-pointer transition-all p-2 rounded-lg ${activeTab === 'wallet' ? 'bg-white/25 backdrop-blur-sm' : 'hover:bg-white/15'}`}
-        onClick={() => { setActiveTab('wallet'); alert('🔗 Blockchain Wallet\n💰 Balance: 0.00 RAAHI\n🔐 Secure transactions enabled'); }}
+        onClick={() => { setActiveTab('wallet'); navigateToPage('my-wallet'); }}
       >
         <svg className="w-6 h-6 text-white mb-1" fill="currentColor" viewBox="0 0 24 24">
           <path d="M21 18v1c0 1.1-.9 2-2 2H5c-1.11 0-2-.9-2-2V5c0-1.1.89-2 2-2h14c1.1 0 2 .9 2 2v1h-9c-1.11 0-2 .9-2 2v8c0 1.1.89 2 2 2h9zm-9-2h10V8H12v8zm4-2.5c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5z"/>
@@ -138,6 +148,24 @@ const App = () => {
         return <HelpDeskSOS onBack={handleBackButton} />;
       case 'safety-score':
         return <SafetyScore onBack={handleBackButton} />;
+      case 'help-desk':
+        return <HelpDesk onBack={handleBackButton} />;
+      case 'my-planner':
+        return <MyPlanner onBack={handleBackButton} />;
+      case 'offline-mode':
+        return <OfflineMode onBack={handleBackButton} />;
+      case 'my-wallet':
+        return <MyWallet onBack={handleBackButton} />;
+      case 'getting-started':
+        return <GettingStarted onBack={handleBackButton} />;
+      case 'welcome':
+        return <WelcomeOnboarding onBack={handleBackButton} />;
+      case 'safety-zone-info':
+        return <SafetyZoneInfo onBack={handleBackButton} />;
+      case 'community-guidelines':
+        return <CommunityGuidelines onBack={handleBackButton} />;
+      case 'profile-management':
+        return <ProfileManagement onBack={handleBackButton} />;
       default:
         return (
           <div className="h-full overflow-y-auto pb-[90px]" style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
@@ -222,11 +250,18 @@ const App = () => {
                 <div className="absolute top-20 right-5 bg-white shadow-xl rounded-lg border z-30 min-w-[250px]">
                   <div className="py-2">
                     <button
-                      onClick={() => navigateToPage('settings')}
+                      onClick={() => navigateToPage('profile-management')}
                       className="w-full flex items-center gap-3 px-4 py-3 hover:bg-gray-100 transition-colors text-left"
                     >
                       <span className="text-lg">👤</span>
-                      <span className="text-gray-700 font-medium">Profile Settings</span>
+                      <span className="text-gray-700 font-medium">Profile Management</span>
+                    </button>
+                    <button
+                      onClick={() => navigateToPage('settings')}
+                      className="w-full flex items-center gap-3 px-4 py-3 hover:bg-gray-100 transition-colors text-left"
+                    >
+                      <span className="text-lg">⚙️</span>
+                      <span className="text-gray-700 font-medium">Settings</span>
                     </button>
                     <button
                       onClick={() => navigateToPage('notifications')}
@@ -257,6 +292,13 @@ const App = () => {
                       <span className="text-gray-700 font-medium">Help - Blockchain Security</span>
                     </button>
                     <button
+                      onClick={() => navigateToPage('community-guidelines')}
+                      className="w-full flex items-center gap-3 px-4 py-3 hover:bg-gray-100 transition-colors text-left"
+                    >
+                      <span className="text-lg">📋</span>
+                      <span className="text-gray-700 font-medium">Community Guidelines</span>
+                    </button>
+                    <button
                       onClick={() => navigateToPage('community')}
                       className="w-full flex items-center gap-3 px-4 py-3 hover:bg-gray-100 transition-colors text-left"
                     >
@@ -264,7 +306,35 @@ const App = () => {
                       <span className="text-gray-700 font-medium">Community</span>
                     </button>
                     <button
-                      onClick={() => alert('About RAAHI App v1.0.0')}
+                      onClick={() => navigateToPage('help-desk')}
+                      className="w-full flex items-center gap-3 px-4 py-3 hover:bg-gray-100 transition-colors text-left"
+                    >
+                      <span className="text-lg">❓</span>
+                      <span className="text-gray-700 font-medium">Help Desk</span>
+                    </button>
+                    <button
+                      onClick={() => navigateToPage('getting-started')}
+                      className="w-full flex items-center gap-3 px-4 py-3 hover:bg-gray-100 transition-colors text-left"
+                    >
+                      <span className="text-lg">🚀</span>
+                      <span className="text-gray-700 font-medium">Getting Started</span>
+                    </button>
+                    <button
+                      onClick={() => navigateToPage('welcome')}
+                      className="w-full flex items-center gap-3 px-4 py-3 hover:bg-gray-100 transition-colors text-left"
+                    >
+                      <span className="text-lg">👋</span>
+                      <span className="text-gray-700 font-medium">Welcome Guide</span>
+                    </button>
+                    <button
+                      onClick={() => navigateToPage('safety-zone-info')}
+                      className="w-full flex items-center gap-3 px-4 py-3 hover:bg-gray-100 transition-colors text-left"
+                    >
+                      <span className="text-lg">🛡️</span>
+                      <span className="text-gray-700 font-medium">Safety Zone Info</span>
+                    </button>
+                    <button
+                      onClick={() => alert('About RAAHI App v2.0.0')}
                       className="w-full flex items-center gap-3 px-4 py-3 hover:bg-gray-100 transition-colors text-left"
                     >
                       <span className="text-lg">ℹ️</span>
@@ -458,7 +528,7 @@ const App = () => {
                   
                   <button 
                     className="flex items-center gap-3 p-3 bg-orange-50 hover:bg-orange-100 rounded-lg transition-colors"
-                    onClick={() => navigateToPage('help-sos')}
+                    onClick={() => navigateToPage('help-desk')}
                   >
                     <svg className="w-5 h-5 text-orange-600" fill="currentColor" viewBox="0 0 24 24">
                       <path d="M11 18h2v-2h-2v2zm1-16C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm0-14c-2.21 0-4 1.79-4 4h2c0-1.1.9-2 2-2s2 .9 2 2c0 2-3 1.75-3 5h2c0-2.25 3-2.5 3-5 0-2.21-1.79-4-4-4z"/>
