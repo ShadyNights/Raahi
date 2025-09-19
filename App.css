@@ -1,24 +1,19 @@
-/* App.css */
 @import 'tailwindcss/base';
 @import 'tailwindcss/components'; 
 @import 'tailwindcss/utilities';
 
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap');
-
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
-
-body {
-  font-family: 'Inter', sans-serif;
-  background: #f8f9fa;
-  overflow: hidden;
-}
-
 .font-inter {
   font-family: 'Inter', sans-serif;
+}
+
+/* Hide scrollbar but keep functionality */
+div::-webkit-scrollbar {
+  display: none;
+}
+
+div {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
 }
 
 /* Enhanced animations */
@@ -56,13 +51,23 @@ body {
   backdrop-filter: blur(4px);
 }
 
-/* Custom gradients for better visual appeal */
-.bg-gradient-to-br {
-  background-image: linear-gradient(to bottom right, var(--tw-gradient-stops));
-}
-
-/* Ensure perfect text rendering */
+/* Perfect text rendering */
 h1, h2, h3 {
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
+}
+
+/* Smooth scrolling */
+.overflow-y-auto {
+  scroll-behavior: smooth;
+}
+
+/* Professional hover effects */
+.cursor-pointer:hover {
+  transform: scale(1.02);
+}
+
+/* Enhanced shadows */
+.shadow-xl {
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
 }
