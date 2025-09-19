@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState, useEffect } from 'react';
 import './App.css';
 
 // Import all components
@@ -55,74 +55,6 @@ const App = () => {
       setCurrentPage(previousPage);
       setActiveTab(previousPage === 'home' ? 'home' : activeTab);
     }
-  };
-
-  // Hamburger menu options
-  const hamburgerMenuItems = [
-    { label: 'Profile Settings', action: () => navigateToPage('settings'), icon: '👤' },
-    { label: 'Notifications', action: () => navigateToPage('notifications'), icon: '🔔' },
-    { label: 'Safety Score', action: () => navigateToPage('safety-score'), icon: '📊' },
-    { label: 'Help - SOS Guide', action: () => navigateToPage('help-sos'), icon: '🆘' },
-    { label: 'Help - Blockchain Security', action: () => navigateToPage('help-blockchain'), icon: '🔐' },
-    { label: 'Community', action: () => navigateToPage('community'), icon: '👥' },
-    { label: 'About RAAHI', action: () => alert('About RAAHI App v1.0.0'), icon: 'ℹ️' },
-    { label: 'Contact Support', action: () => alert('Contact: support@raahi.com'), icon: '📞' },
-  ];
-
-  const renderUniversalHeader = () => {
-    if (currentPage === 'home') return null; // Home has its own header
-
-    return (
-      <div className="sticky top-0 bg-gradient-to-r from-[#FF8F00] to-[#FF6B35] z-20 p-4 pt-6">
-        <div className="flex items-center justify-between">
-          {/* Left side - Back button and Logo */}
-          <div className="flex items-center gap-3">
-            <button 
-              onClick={handleBackButton}
-              className="w-8 h-8 bg-white/20 rounded-full flex items-center justify-center hover:bg-white/30 transition-colors"
-            >
-              <svg className="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 24 24">
-                <path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/>
-              </svg>
-            </button>
-            <div className="flex items-center gap-2">
-              <svg className="w-6 h-6 text-white" viewBox="0 0 24 24" fill="currentColor">
-                <path d="M12 2.5c-1.5 0-2.8.7-3.6 1.8-.4.6-.4 1.4 0 2 .8 1.1 2.1 1.8 3.6 1.8s2.8-.7 3.6-1.8c.4-.6.4-1.4 0-2C14.8 3.2 13.5 2.5 12 2.5z"/>
-              </svg>
-              <span className="text-white font-bold text-lg">RAAHI</span>
-            </div>
-          </div>
-
-          {/* Right side - Hamburger menu */}
-          <button 
-            className="hamburger-menu relative w-8 h-8 flex flex-col justify-center items-center cursor-pointer"
-            onClick={() => setShowHamburgerMenu(!showHamburgerMenu)}
-          >
-            <div className="w-6 h-[2px] bg-white rounded-full transition-all duration-300"></div>
-            <div className="w-6 h-[2px] bg-white rounded-full transition-all duration-300 mt-1"></div>
-            <div className="w-6 h-[2px] bg-white rounded-full transition-all duration-300 mt-1"></div>
-          </button>
-        </div>
-
-        {/* Hamburger Dropdown Menu */}
-        {showHamburgerMenu && (
-          <div className="hamburger-menu absolute top-full left-0 right-0 bg-white shadow-lg rounded-b-lg border-t-2 border-orange-200 z-30 mx-4">
-            <div className="py-2">
-              {hamburgerMenuItems.map((item, index) => (
-                <button
-                  key={index}
-                  onClick={item.action}
-                  className="w-full flex items-center gap-3 px-4 py-3 hover:bg-gray-100 transition-colors text-left"
-                >
-                  <span className="text-lg">{item.icon}</span>
-                  <span className="text-gray-700 font-medium">{item.label}</span>
-                </button>
-              ))}
-            </div>
-          </div>
-        )}
-      </div>
-    );
   };
 
   const renderUniversalNavbar = () => (
@@ -189,86 +121,23 @@ const App = () => {
   const renderPage = () => {
     switch (currentPage) {
       case 'sos':
-        return (
-          <div className="h-full flex flex-col">
-            {renderUniversalHeader()}
-            <div className="flex-1">
-              <SOSComponent onBack={handleBackButton} />
-            </div>
-          </div>
-        );
+        return <SOSComponent onBack={handleBackButton} />;
       case 'ai':
-        return (
-          <div className="h-full flex flex-col">
-            {renderUniversalHeader()}
-            <div className="flex-1">
-              <IndiraAI onBack={handleBackButton} />
-            </div>
-          </div>
-        );
+        return <IndiraAI onBack={handleBackButton} />;
       case 'map':
-        return (
-          <div className="h-full flex flex-col">
-            {renderUniversalHeader()}
-            <div className="flex-1">
-              <ZoneMap onBack={handleBackButton} />
-            </div>
-          </div>
-        );
+        return <ZoneMap onBack={handleBackButton} />;
       case 'settings':
-        return (
-          <div className="h-full flex flex-col">
-            {renderUniversalHeader()}
-            <div className="flex-1">
-              <Settings onBack={handleBackButton} />
-            </div>
-          </div>
-        );
+        return <Settings onBack={handleBackButton} />;
       case 'notifications':
-        return (
-          <div className="h-full flex flex-col">
-            {renderUniversalHeader()}
-            <div className="flex-1">
-              <Notifications onBack={handleBackButton} />
-            </div>
-          </div>
-        );
+        return <Notifications onBack={handleBackButton} />;
       case 'community':
-        return (
-          <div className="h-full flex flex-col">
-            {renderUniversalHeader()}
-            <div className="flex-1">
-              <CommunityNearby onBack={handleBackButton} />
-            </div>
-          </div>
-        );
+        return <CommunityNearby onBack={handleBackButton} />;
       case 'help-blockchain':
-        return (
-          <div className="h-full flex flex-col">
-            {renderUniversalHeader()}
-            <div className="flex-1">
-              <HelpDeskBlockchain onBack={handleBackButton} />
-            </div>
-          </div>
-        );
+        return <HelpDeskBlockchain onBack={handleBackButton} />;
       case 'help-sos':
-        return (
-          <div className="h-full flex flex-col">
-            {renderUniversalHeader()}
-            <div className="flex-1">
-              <HelpDeskSOS onBack={handleBackButton} />
-            </div>
-          </div>
-        );
+        return <HelpDeskSOS onBack={handleBackButton} />;
       case 'safety-score':
-        return (
-          <div className="h-full flex flex-col">
-            {renderUniversalHeader()}
-            <div className="flex-1">
-              <SafetyScore onBack={handleBackButton} />
-            </div>
-          </div>
-        );
+        return <SafetyScore onBack={handleBackButton} />;
       default:
         return (
           <div className="h-full overflow-y-auto pb-[90px]" style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
@@ -336,9 +205,9 @@ const App = () => {
                     </div>
                   </div>
                   
-                  {/* Hamburger Menu */}
+                  {/* Hamburger Menu - Only on Home Page */}
                   <div 
-                    className="hamburger-menu flex flex-col justify-between w-7 h-5 cursor-pointer hover:scale-105 transition-transform relative"
+                    className="flex flex-col justify-between w-7 h-5 cursor-pointer hover:scale-105 transition-transform hamburger-menu"
                     onClick={() => setShowHamburgerMenu(!showHamburgerMenu)}
                   >
                     <div className="w-full h-[3px] bg-gradient-to-r from-[#FF6B35] to-[#FF8F00] rounded-full"></div>
@@ -348,20 +217,66 @@ const App = () => {
                 </div>
               </div>
 
-              {/* Hamburger Dropdown Menu for Home */}
+              {/* Hamburger Dropdown Menu - Only on Home */}
               {showHamburgerMenu && (
-                <div className="hamburger-menu absolute top-20 right-5 bg-white shadow-xl rounded-lg border z-30 min-w-[250px]">
+                <div className="absolute top-20 right-5 bg-white shadow-xl rounded-lg border z-30 min-w-[250px]">
                   <div className="py-2">
-                    {hamburgerMenuItems.map((item, index) => (
-                      <button
-                        key={index}
-                        onClick={item.action}
-                        className="w-full flex items-center gap-3 px-4 py-3 hover:bg-gray-100 transition-colors text-left"
-                      >
-                        <span className="text-lg">{item.icon}</span>
-                        <span className="text-gray-700 font-medium">{item.label}</span>
-                      </button>
-                    ))}
+                    <button
+                      onClick={() => navigateToPage('settings')}
+                      className="w-full flex items-center gap-3 px-4 py-3 hover:bg-gray-100 transition-colors text-left"
+                    >
+                      <span className="text-lg">👤</span>
+                      <span className="text-gray-700 font-medium">Profile Settings</span>
+                    </button>
+                    <button
+                      onClick={() => navigateToPage('notifications')}
+                      className="w-full flex items-center gap-3 px-4 py-3 hover:bg-gray-100 transition-colors text-left"
+                    >
+                      <span className="text-lg">🔔</span>
+                      <span className="text-gray-700 font-medium">Notifications</span>
+                    </button>
+                    <button
+                      onClick={() => navigateToPage('safety-score')}
+                      className="w-full flex items-center gap-3 px-4 py-3 hover:bg-gray-100 transition-colors text-left"
+                    >
+                      <span className="text-lg">📊</span>
+                      <span className="text-gray-700 font-medium">Safety Score</span>
+                    </button>
+                    <button
+                      onClick={() => navigateToPage('help-sos')}
+                      className="w-full flex items-center gap-3 px-4 py-3 hover:bg-gray-100 transition-colors text-left"
+                    >
+                      <span className="text-lg">🆘</span>
+                      <span className="text-gray-700 font-medium">Help - SOS Guide</span>
+                    </button>
+                    <button
+                      onClick={() => navigateToPage('help-blockchain')}
+                      className="w-full flex items-center gap-3 px-4 py-3 hover:bg-gray-100 transition-colors text-left"
+                    >
+                      <span className="text-lg">🔐</span>
+                      <span className="text-gray-700 font-medium">Help - Blockchain Security</span>
+                    </button>
+                    <button
+                      onClick={() => navigateToPage('community')}
+                      className="w-full flex items-center gap-3 px-4 py-3 hover:bg-gray-100 transition-colors text-left"
+                    >
+                      <span className="text-lg">👥</span>
+                      <span className="text-gray-700 font-medium">Community</span>
+                    </button>
+                    <button
+                      onClick={() => alert('About RAAHI App v1.0.0')}
+                      className="w-full flex items-center gap-3 px-4 py-3 hover:bg-gray-100 transition-colors text-left"
+                    >
+                      <span className="text-lg">ℹ️</span>
+                      <span className="text-gray-700 font-medium">About RAAHI</span>
+                    </button>
+                    <button
+                      onClick={() => alert('Contact: support@raahi.com')}
+                      className="w-full flex items-center gap-3 px-4 py-3 hover:bg-gray-100 transition-colors text-left"
+                    >
+                      <span className="text-lg">📞</span>
+                      <span className="text-gray-700 font-medium">Contact Support</span>
+                    </button>
                   </div>
                 </div>
               )}
@@ -561,17 +476,17 @@ const App = () => {
     }
   };
 
-  // Close hamburger menu when clicking outside - Fixed with useCallback
-  const handleOutsideClick = useCallback((e) => {
-    if (showHamburgerMenu && !e.target.closest('.hamburger-menu')) {
-      setShowHamburgerMenu(false);
-    }
-  }, [showHamburgerMenu]);
+  // Fixed ESLint warning - Handle click events directly in useEffect
+  useEffect(() => {
+    const handleClick = (e) => {
+      if (showHamburgerMenu && !e.target.closest('.hamburger-menu')) {
+        setShowHamburgerMenu(false);
+      }
+    };
 
-  React.useEffect(() => {
-    document.addEventListener('click', handleOutsideClick);
-    return () => document.removeEventListener('click', handleOutsideClick);
-  }, [handleOutsideClick]);
+    document.addEventListener('click', handleClick);
+    return () => document.removeEventListener('click', handleClick);
+  }, [showHamburgerMenu]);
 
   return (
     <div className="w-full min-h-screen bg-gradient-to-b from-[#FFF8E7] to-[#FFFFFF] flex items-center justify-center">
