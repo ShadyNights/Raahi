@@ -97,107 +97,148 @@ const IndiraAI = ({ onBack }) => {
 
   if (showAnimation) {
     return (
-      <div className="h-full bg-gradient-to-b from-[#FF6B35] to-[#FF8F00] overflow-hidden">
-        {/* Header */}
-        <div className="flex items-center justify-between p-4 pt-6">
-          <div className="flex items-center gap-3">
-            <div className="w-8 h-8 bg-white rounded-full flex items-center justify-center">
-              <svg className="w-5 h-5 text-[#FF6B35]" viewBox="0 0 24 24" fill="currentColor">
-                <path d="M12 2.5c-1.5 0-2.8.7-3.6 1.8-.4.6-.4 1.4 0 2 .8 1.1 2.1 1.8 3.6 1.8s2.8-.7 3.6-1.8c.4-.6.4-1.4 0-2C14.8 3.2 13.5 2.5 12 2.5z"/>
-              </svg>
+      <div className="h-full overflow-y-auto bg-gradient-to-b from-[#FF6B35] to-[#FF8F00]" style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
+        {/* Sticky Header */}
+        <div className="sticky top-0 bg-gradient-to-b from-[#FF6B35] to-[#FF8F00] z-10 p-4 pt-6">
+          <div className="flex items-center justify-between mb-4">
+            <div className="flex items-center gap-3">
+              <div className="w-8 h-8 bg-white rounded-full flex items-center justify-center">
+                <svg className="w-5 h-5 text-[#FF6B35]" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M12 2.5c-1.5 0-2.8.7-3.6 1.8-.4.6-.4 1.4 0 2 .8 1.1 2.1 1.8 3.6 1.8s2.8-.7 3.6-1.8c.4-.6.4-1.4 0-2C14.8 3.2 13.5 2.5 12 2.5z"/>
+                </svg>
+              </div>
+              <div>
+                <span className="text-white font-bold text-lg">RAAHI</span>
+                <span className="text-white/80 text-sm"> - Secure Journeys</span>
+              </div>
             </div>
-            <div>
-              <span className="text-white font-bold text-lg">RAAHI</span>
-              <span className="text-white/80 text-sm"> - Secure Journeys</span>
+            <div className="flex flex-col justify-between w-6 h-4">
+              <div className="w-full h-[2px] bg-white rounded-full"></div>
+              <div className="w-full h-[2px] bg-white rounded-full"></div>
+              <div className="w-full h-[2px] bg-white rounded-full"></div>
             </div>
           </div>
-          <div className="flex flex-col justify-between w-6 h-4">
-            <div className="w-full h-[2px] bg-white rounded-full"></div>
-            <div className="w-full h-[2px] bg-white rounded-full"></div>
-            <div className="w-full h-[2px] bg-white rounded-full"></div>
+
+          <div className="text-center">
+            <h1 className="text-2xl font-bold text-white mb-2">Chat with Indira AI</h1>
+            <p className="text-white/80">(Opening Animation)</p>
           </div>
         </div>
 
-        {/* Title */}
-        <div className="text-center py-4">
-          <h1 className="text-2xl font-bold text-white mb-2">Chat with Indira AI</h1>
-          <p className="text-white/80">(Opening Animation)</p>
-        </div>
+        {/* Scrollable Animation Content */}
+        <div className="px-8 pb-24">
+          {/* Animated Indira Avatar */}
+          <div className="flex-1 flex items-center justify-center py-8">
+            <div className="relative">
+              {/* Decorative Background Patterns */}
+              <div className="absolute inset-0 opacity-20">
+                <svg viewBox="0 0 400 400" className="w-full h-full">
+                  <circle cx="200" cy="200" r="150" stroke="white" strokeWidth="2" fill="none" opacity="0.3"/>
+                  <circle cx="200" cy="200" r="180" stroke="white" strokeWidth="1" fill="none" opacity="0.2"/>
+                  <path d="M200,50 L220,70 L200,90 L180,70 Z" fill="white" opacity="0.3"/>
+                  <path d="M350,200 L370,220 L350,240 L330,220 Z" fill="white" opacity="0.3"/>
+                  <path d="M200,350 L220,370 L200,390 L180,370 Z" fill="white" opacity="0.3"/>
+                  <path d="M50,200 L70,220 L50,240 L30,220 Z" fill="white" opacity="0.3"/>
+                </svg>
+              </div>
 
-        {/* Animated Indira Avatar */}
-        <div className="flex-1 flex items-center justify-center px-8">
-          <div className="relative">
-            {/* Decorative Background Patterns */}
-            <div className="absolute inset-0 opacity-20">
-              <svg viewBox="0 0 400 400" className="w-full h-full">
-                <circle cx="200" cy="200" r="150" stroke="white" strokeWidth="2" fill="none" opacity="0.3"/>
-                <circle cx="200" cy="200" r="180" stroke="white" strokeWidth="1" fill="none" opacity="0.2"/>
-                <path d="M200,50 L220,70 L200,90 L180,70 Z" fill="white" opacity="0.3"/>
-                <path d="M350,200 L370,220 L350,240 L330,220 Z" fill="white" opacity="0.3"/>
-                <path d="M200,350 L220,370 L200,390 L180,370 Z" fill="white" opacity="0.3"/>
-                <path d="M50,200 L70,220 L50,240 L30,220 Z" fill="white" opacity="0.3"/>
-              </svg>
-            </div>
-
-            {/* Indira Avatar */}
-            <div className="relative w-64 h-64 mx-auto animate-pulse">
-              {/* Main Circle Background */}
-              <div className="w-full h-full rounded-full bg-gradient-to-b from-yellow-400 to-orange-500 p-4 shadow-2xl">
-                
-                {/* Avatar Illustration */}
-                <div className="w-full h-full rounded-full bg-gradient-to-b from-orange-300 to-red-400 relative overflow-hidden">
+              {/* Indira Avatar */}
+              <div className="relative w-64 h-64 mx-auto animate-pulse">
+                {/* Main Circle Background */}
+                <div className="w-full h-full rounded-full bg-gradient-to-b from-yellow-400 to-orange-500 p-4 shadow-2xl">
                   
-                  {/* Face */}
-                  <div className="absolute top-8 left-1/2 transform -translate-x-1/2 w-16 h-20 bg-yellow-100 rounded-full"></div>
-                  
-                  {/* Hair/Crown */}
-                  <div className="absolute top-4 left-1/2 transform -translate-x-1/2 w-20 h-16 bg-gradient-to-b from-yellow-600 to-yellow-700 rounded-t-full"></div>
-                  
-                  {/* Eyes */}
-                  <div className="absolute top-12 left-1/2 transform -translate-x-1/2 flex gap-2">
-                    <div className="w-2 h-2 bg-black rounded-full"></div>
-                    <div className="w-2 h-2 bg-black rounded-full"></div>
-                  </div>
-                  
-                  {/* Traditional Dress */}
-                  <div className="absolute bottom-0 left-0 w-full h-32 bg-gradient-to-t from-red-600 to-orange-500 rounded-b-full"></div>
-                  
-                  {/* Phone in Hand */}
-                  <div className="absolute bottom-16 left-6 w-8 h-12 bg-gray-800 rounded-sm">
-                    <div className="w-6 h-8 bg-blue-400 rounded-sm m-1"></div>
-                  </div>
-                  
-                  {/* Shield */}
-                  <div className="absolute bottom-16 right-6 w-8 h-10 bg-yellow-500 rounded-t-full"></div>
-                  
-                  {/* WiFi Signal */}
-                  <div className="absolute top-16 right-8">
-                    <div className="flex items-end gap-1">
-                      <div className="w-1 h-2 bg-white rounded animate-bounce"></div>
-                      <div className="w-1 h-3 bg-white rounded animate-bounce" style={{animationDelay: '0.1s'}}></div>
-                      <div className="w-1 h-4 bg-white rounded animate-bounce" style={{animationDelay: '0.2s'}}></div>
+                  {/* Avatar Illustration */}
+                  <div className="w-full h-full rounded-full bg-gradient-to-b from-orange-300 to-red-400 relative overflow-hidden">
+                    
+                    {/* Face */}
+                    <div className="absolute top-8 left-1/2 transform -translate-x-1/2 w-16 h-20 bg-yellow-100 rounded-full"></div>
+                    
+                    {/* Hair/Crown */}
+                    <div className="absolute top-4 left-1/2 transform -translate-x-1/2 w-20 h-16 bg-gradient-to-b from-yellow-600 to-yellow-700 rounded-t-full"></div>
+                    
+                    {/* Eyes */}
+                    <div className="absolute top-12 left-1/2 transform -translate-x-1/2 flex gap-2">
+                      <div className="w-2 h-2 bg-black rounded-full"></div>
+                      <div className="w-2 h-2 bg-black rounded-full"></div>
+                    </div>
+                    
+                    {/* Traditional Dress */}
+                    <div className="absolute bottom-0 left-0 w-full h-32 bg-gradient-to-t from-red-600 to-orange-500 rounded-b-full"></div>
+                    
+                    {/* Phone in Hand */}
+                    <div className="absolute bottom-16 left-6 w-8 h-12 bg-gray-800 rounded-sm">
+                      <div className="w-6 h-8 bg-blue-400 rounded-sm m-1"></div>
+                    </div>
+                    
+                    {/* Shield */}
+                    <div className="absolute bottom-16 right-6 w-8 h-10 bg-yellow-500 rounded-t-full"></div>
+                    
+                    {/* WiFi Signal */}
+                    <div className="absolute top-16 right-8">
+                      <div className="flex items-end gap-1">
+                        <div className="w-1 h-2 bg-white rounded animate-bounce"></div>
+                        <div className="w-1 h-3 bg-white rounded animate-bounce" style={{animationDelay: '0.1s'}}></div>
+                        <div className="w-1 h-4 bg-white rounded animate-bounce" style={{animationDelay: '0.2s'}}></div>
+                      </div>
                     </div>
                   </div>
                 </div>
               </div>
             </div>
           </div>
-        </div>
 
-        {/* Loading Message */}
-        <div className="text-center pb-8">
-          <div className="bg-white/20 backdrop-blur-sm rounded-2xl p-4 mx-8 mb-4">
-            <p className="text-white text-lg">Namaste! How can I assist you on the journey?</p>
+          {/* Loading Message */}
+          <div className="text-center">
+            <div className="bg-white/20 backdrop-blur-sm rounded-2xl p-4 mb-4">
+              <p className="text-white text-lg">Namaste! How can I assist you on the journey?</p>
+            </div>
+          </div>
+
+          {/* Additional Animation Content */}
+          <div className="mt-8 space-y-4">
+            <div className="bg-white/10 rounded-lg p-4">
+              <h3 className="text-white font-semibold mb-2">✨ What I can help you with:</h3>
+              <ul className="text-white/90 text-sm space-y-1">
+                <li>• Travel planning and itineraries</li>
+                <li>• Local customs and traditions</li>
+                <li>• Safety tips for tourists</li>
+                <li>• Best places to visit in India</li>
+              </ul>
+            </div>
           </div>
         </div>
+
+        {/* Fixed Bottom Navigation */}
+        <nav className="fixed bottom-0 left-1/2 transform -translate-x-1/2 w-[390px] h-[80px] bg-gradient-to-r from-[#FF9223] via-[#FF7635] to-[#FF6B35] rounded-t-[25px] flex justify-around items-center shadow-2xl z-50">
+          <div className="w-12 h-12 rounded-full flex items-center justify-center" onClick={onBack}>
+            <svg className="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 24 24">
+              <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/>
+            </svg>
+          </div>
+          <div className="w-12 h-12 rounded-full flex items-center justify-center">
+            <svg className="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 24 24">
+              <path d="M9 11H7v2h2v-2zm4 0h-2v2h2v-2zm4 0h-2v2h2v-2z"/>
+            </svg>
+          </div>
+          <div className="w-12 h-12 rounded-full bg-white/25 backdrop-blur-sm flex items-center justify-center shadow-lg">
+            <svg className="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 24 24">
+              <path d="M20 2H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h14l4 4V4c0-1.1-.9-2-2-2z"/>
+            </svg>
+          </div>
+          <div className="w-12 h-12 rounded-full flex items-center justify-center">
+            <svg className="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 24 24">
+              <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4z"/>
+            </svg>
+          </div>
+        </nav>
       </div>
     );
   }
 
   return (
-    <div className="h-full bg-gray-100 overflow-hidden flex flex-col">
-      {/* Header */}
-      <div className="bg-gradient-to-r from-[#FF6B35] to-[#FF8F00] p-4 pt-6 shadow-lg">
+    <div className="h-full overflow-hidden bg-gray-100 flex flex-col">
+      {/* Fixed Header */}
+      <div className="bg-gradient-to-r from-[#FF6B35] to-[#FF8F00] p-4 pt-6 shadow-lg flex-shrink-0">
         <div className="flex items-center justify-between mb-4">
           <div className="flex items-center gap-3">
             <div className="w-8 h-8 bg-white rounded-full flex items-center justify-center">
@@ -223,8 +264,8 @@ const IndiraAI = ({ onBack }) => {
         </div>
       </div>
 
-      {/* Chat Messages */}
-      <div className="flex-1 overflow-y-auto p-4 space-y-4">
+      {/* Scrollable Chat Messages */}
+      <div className="flex-1 overflow-y-auto p-4 space-y-4" style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
         {messages.map((message) => (
           <div key={message.id} className={`flex ${message.sender === 'user' ? 'justify-end' : 'justify-start'}`}>
             <div className={`max-w-xs lg:max-w-md px-4 py-3 rounded-2xl ${
@@ -260,10 +301,33 @@ const IndiraAI = ({ onBack }) => {
           </div>
         )}
         <div ref={messagesEndRef} />
+
+        {/* Extra content for scrolling demo */}
+        <div className="mt-8 space-y-4">
+          <div className="bg-orange-50 rounded-lg p-4">
+            <h3 className="text-orange-800 font-semibold mb-2">🏛️ Popular Destinations</h3>
+            <ul className="text-orange-700 text-sm space-y-1">
+              <li>• Taj Mahal, Agra</li>
+              <li>• Red Fort, Delhi</li>
+              <li>• Hawa Mahal, Jaipur</li>
+              <li>• Kerala Backwaters</li>
+            </ul>
+          </div>
+          
+          <div className="bg-blue-50 rounded-lg p-4">
+            <h3 className="text-blue-800 font-semibold mb-2">🛡️ Safety Tips</h3>
+            <ul className="text-blue-700 text-sm space-y-1">
+              <li>• Keep emergency contacts handy</li>
+              <li>• Stay in well-lit areas</li>
+              <li>• Follow local guidelines</li>
+              <li>• Trust your instincts</li>
+            </ul>
+          </div>
+        </div>
       </div>
 
-      {/* Quick Replies */}
-      <div className="px-4 pb-2">
+      {/* Fixed Quick Replies */}
+      <div className="px-4 pb-2 bg-gray-100 flex-shrink-0">
         <div className="flex flex-wrap gap-2">
           {quickReplies.map((reply, index) => (
             <button
@@ -280,8 +344,8 @@ const IndiraAI = ({ onBack }) => {
         </div>
       </div>
 
-      {/* Input Area */}
-      <div className="bg-white p-4 border-t border-gray-200">
+      {/* Fixed Input Area */}
+      <div className="bg-white p-4 border-t border-gray-200 flex-shrink-0">
         <div className="flex items-center gap-3">
           <button className="w-10 h-10 bg-gray-100 rounded-full flex items-center justify-center">
             <svg className="w-5 h-5 text-gray-600" fill="currentColor" viewBox="0 0 24 24">
@@ -311,8 +375,8 @@ const IndiraAI = ({ onBack }) => {
         </div>
       </div>
 
-      {/* Bottom Navigation */}
-      <nav className="bg-gradient-to-r from-[#FF9223] via-[#FF7635] to-[#FF6B35] h-[80px] flex justify-around items-center">
+      {/* Fixed Bottom Navigation */}
+      <nav className="bg-gradient-to-r from-[#FF9223] via-[#FF7635] to-[#FF6B35] h-[80px] flex justify-around items-center flex-shrink-0">
         <div className="w-12 h-12 rounded-full flex items-center justify-center" onClick={onBack}>
           <svg className="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 24 24">
             <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/>

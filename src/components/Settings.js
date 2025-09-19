@@ -18,9 +18,9 @@ const Settings = ({ onBack }) => {
   };
 
   const renderSettingsPage = () => (
-    <div className="h-full bg-gradient-to-b from-[#FF8F00] to-[#FF6B35] overflow-y-auto">
-      {/* Header */}
-      <div className="p-4 pt-6">
+    <div className="h-full overflow-y-auto bg-gradient-to-b from-[#FF8F00] to-[#FF6B35]" style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
+      {/* Sticky Header */}
+      <div className="sticky top-0 bg-gradient-to-b from-[#FF8F00] to-[#FF6B35] z-10 p-4 pt-6">
         <div className="flex items-center justify-between mb-6">
           <div className="flex items-center gap-3">
             <div className="w-8 h-8 bg-white rounded-full flex items-center justify-center">
@@ -30,18 +30,26 @@ const Settings = ({ onBack }) => {
             </div>
             <span className="text-white font-bold text-lg">RAAHI</span>
           </div>
-          <div className="flex flex-col justify-between w-6 h-4">
-            <div className="w-full h-[2px] bg-white rounded-full"></div>
-            <div className="w-full h-[2px] bg-white rounded-full"></div>
-            <div className="w-full h-[2px] bg-white rounded-full"></div>
+          <div className="flex items-center gap-4">
+            <button 
+              onClick={() => setCurrentView('profile')}
+              className="text-white/80 hover:text-white text-sm"
+            >
+              Profile
+            </button>
+            <div className="flex flex-col justify-between w-6 h-4">
+              <div className="w-full h-[2px] bg-white rounded-full"></div>
+              <div className="w-full h-[2px] bg-white rounded-full"></div>
+              <div className="w-full h-[2px] bg-white rounded-full"></div>
+            </div>
           </div>
         </div>
         
         <h1 className="text-2xl font-bold text-white mb-6">Settings</h1>
       </div>
 
-      {/* Settings Content */}
-      <div className="flex-1 bg-white rounded-t-[25px] px-6 pt-6">
+      {/* Scrollable Settings Content */}
+      <div className="bg-white rounded-t-[25px] px-6 pt-6 pb-24 min-h-full">
         
         {/* General Section */}
         <div className="mb-6">
@@ -55,6 +63,7 @@ const Settings = ({ onBack }) => {
                 <span className="font-medium text-gray-800">Language</span>
               </div>
               <div className="flex items-center gap-2">
+                <span className="text-sm text-gray-600">English</span>
                 <svg className="w-5 h-5 text-gray-400" fill="currentColor" viewBox="0 0 24 24">
                   <path d="M7 10l5 5 5-5z"/>
                 </svg>
@@ -161,6 +170,35 @@ const Settings = ({ onBack }) => {
           </div>
         </div>
 
+        {/* Account Management */}
+        <div className="mb-6">
+          <h2 className="text-lg font-bold text-gray-800 mb-4">Account</h2>
+          <div className="bg-white rounded-lg border border-gray-200 overflow-hidden">
+            <div className="flex items-center justify-between p-4 border-b border-gray-100">
+              <div className="flex items-center gap-3">
+                <svg className="w-5 h-5 text-gray-600" fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
+                </svg>
+                <span className="font-medium text-gray-800">Manage Profile</span>
+              </div>
+              <svg className="w-5 h-5 text-gray-400" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M8.59 16.59L10.17 18 16.17 12 10.17 6 8.59 7.41 13.17 12z"/>
+              </svg>
+            </div>
+            <div className="flex items-center justify-between p-4">
+              <div className="flex items-center gap-3">
+                <svg className="w-5 h-5 text-gray-600" fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zm-6 9c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm3.1-9H8.9V6c0-1.71 1.39-3.1 3.1-3.1 1.71 0 3.1 1.39 3.1 3.1v2z"/>
+                </svg>
+                <span className="font-medium text-gray-800">Change Password</span>
+              </div>
+              <svg className="w-5 h-5 text-gray-400" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M8.59 16.59L10.17 18 16.17 12 10.17 6 8.59 7.41 13.17 12z"/>
+              </svg>
+            </div>
+          </div>
+        </div>
+
         {/* Terms & Conditions */}
         <div className="mb-6">
           <div className="bg-white rounded-lg border border-gray-200 p-4">
@@ -173,10 +211,25 @@ const Settings = ({ onBack }) => {
           </div>
         </div>
 
-        <div className="h-20"></div>
+        {/* About Section */}
+        <div className="mb-6">
+          <h2 className="text-lg font-bold text-gray-800 mb-4">About</h2>
+          <div className="bg-gray-50 rounded-lg p-4">
+            <div className="text-center">
+              <div className="w-16 h-16 bg-gradient-to-br from-[#FF8F00] to-[#FF6B35] rounded-full flex items-center justify-center mx-auto mb-3">
+                <svg className="w-8 h-8 text-white" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M12 2.5c-1.5 0-2.8.7-3.6 1.8-.4.6-.4 1.4 0 2 .8 1.1 2.1 1.8 3.6 1.8s2.8-.7 3.6-1.8c.4-.6.4-1.4 0-2C14.8 3.2 13.5 2.5 12 2.5z"/>
+                </svg>
+              </div>
+              <h3 className="font-bold text-gray-800 mb-1">RAAHI Travel App</h3>
+              <p className="text-sm text-gray-600 mb-2">Version 1.0.0</p>
+              <p className="text-xs text-gray-500">Secure Journeys, Enriched Experiences</p>
+            </div>
+          </div>
+        </div>
       </div>
 
-      {/* Bottom Navigation */}
+      {/* Fixed Bottom Navigation */}
       <nav className="fixed bottom-0 left-1/2 transform -translate-x-1/2 w-[390px] h-[80px] bg-gradient-to-r from-[#FF9223] via-[#FF7635] to-[#FF6B35] rounded-t-[25px] flex justify-around items-center shadow-2xl z-50">
         <div className="w-12 h-12 rounded-full flex items-center justify-center" onClick={onBack}>
           <svg className="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 24 24">
@@ -201,9 +254,9 @@ const Settings = ({ onBack }) => {
   );
 
   const renderProfilePage = () => (
-    <div className="h-full bg-gradient-to-b from-[#FF8F00] to-[#FF6B35] overflow-y-auto">
-      {/* Header */}
-      <div className="p-4 pt-6">
+    <div className="h-full overflow-y-auto bg-gradient-to-b from-[#FF8F00] to-[#FF6B35]" style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
+      {/* Sticky Header */}
+      <div className="sticky top-0 bg-gradient-to-b from-[#FF8F00] to-[#FF6B35] z-10 p-4 pt-6">
         <div className="flex items-center justify-between mb-6">
           <div className="flex items-center gap-3">
             <div className="w-8 h-8 bg-white rounded-full flex items-center justify-center">
@@ -213,21 +266,40 @@ const Settings = ({ onBack }) => {
             </div>
             <span className="text-white font-bold text-lg">RAAHI</span>
           </div>
-          <button 
-            onClick={() => alert('Logout functionality')}
-            className="bg-white/20 backdrop-blur-sm text-white px-4 py-2 rounded-full text-sm font-medium flex items-center gap-2"
-          >
-            <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
-              <path d="M17 7l-1.41 1.41L18.17 11H8v2h10.17l-2.58 2.59L17 17l5-5zM4 5h8V3H4c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h8v-2H4V5z"/>
-            </svg>
-            Log out
-          </button>
+          <div className="flex items-center gap-4">
+            <button 
+              onClick={() => setCurrentView('settings')}
+              className="text-white/80 hover:text-white text-sm"
+            >
+              Settings
+            </button>
+            <button 
+              onClick={() => alert('Logout functionality')}
+              className="bg-white/20 backdrop-blur-sm text-white px-4 py-2 rounded-full text-sm font-medium flex items-center gap-2"
+            >
+              <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M17 7l-1.41 1.41L18.17 11H8v2h10.17l-2.58 2.59L17 17l5-5zM4 5h8V3H4c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h8v-2H4V5z"/>
+              </svg>
+              Log out
+            </button>
+          </div>
         </div>
       </div>
 
-      {/* Profile Content */}
-      <div className="flex-1 bg-white rounded-t-[25px] px-6 pt-6">
+      {/* Scrollable Profile Content */}
+      <div className="bg-white rounded-t-[25px] px-6 pt-6 pb-24 min-h-full">
         
+        {/* Profile Header */}
+        <div className="text-center mb-6">
+          <div className="w-20 h-20 bg-gradient-to-br from-[#FF8F00] to-[#FF6B35] rounded-full flex items-center justify-center mx-auto mb-3">
+            <svg className="w-10 h-10 text-white" fill="currentColor" viewBox="0 0 24 24">
+              <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
+            </svg>
+          </div>
+          <h2 className="text-xl font-bold text-gray-800">Noone</h2>
+          <p className="text-gray-600">Travel ID: trav2Steel</p>
+        </div>
+
         {/* Receipts Care Sale */}
         <div className="mb-6">
           <div className="bg-white rounded-lg border border-gray-200 p-4">
@@ -314,10 +386,31 @@ const Settings = ({ onBack }) => {
           </div>
         </div>
 
-        <div className="h-20"></div>
+        {/* Travel Statistics */}
+        <div className="mb-6">
+          <h2 className="text-lg font-bold text-gray-800 mb-4">Travel Statistics</h2>
+          <div className="grid grid-cols-2 gap-4">
+            <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 text-center">
+              <div className="text-2xl font-bold text-blue-600 mb-1">3</div>
+              <div className="text-sm text-blue-700">Places Visited</div>
+            </div>
+            <div className="bg-green-50 border border-green-200 rounded-lg p-4 text-center">
+              <div className="text-2xl font-bold text-green-600 mb-1">50%</div>
+              <div className="text-sm text-green-700">Safety Score</div>
+            </div>
+            <div className="bg-purple-50 border border-purple-200 rounded-lg p-4 text-center">
+              <div className="text-2xl font-bold text-purple-600 mb-1">7</div>
+              <div className="text-sm text-purple-700">Days Traveled</div>
+            </div>
+            <div className="bg-orange-50 border border-orange-200 rounded-lg p-4 text-center">
+              <div className="text-2xl font-bold text-orange-600 mb-1">2</div>
+              <div className="text-sm text-orange-700">States Visited</div>
+            </div>
+          </div>
+        </div>
       </div>
 
-      {/* Bottom Navigation */}
+      {/* Fixed Bottom Navigation */}
       <nav className="fixed bottom-0 left-1/2 transform -translate-x-1/2 w-[390px] h-[80px] bg-gradient-to-r from-[#FF9223] via-[#FF7635] to-[#FF6B35] rounded-t-[25px] flex justify-around items-center shadow-2xl z-50">
         <div className="w-12 h-12 rounded-full flex items-center justify-center" onClick={onBack}>
           <svg className="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 24 24">
