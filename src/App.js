@@ -20,6 +20,7 @@ import WelcomeOnboarding from './components/WelcomeOnboarding';
 import SafetyZoneInfo from './components/SafetyZoneInfo';
 import CommunityGuidelines from './components/CommunityGuidelines';
 import ProfileManagement from './components/ProfileManagement';
+import LiveTranslator from './components/LiveTranslator';
 
 const App = () => {
   const [currentPage, setCurrentPage] = useState('home');
@@ -37,7 +38,7 @@ const App = () => {
 
   const handlePlanner = () => {
     setShowPlanner(true);
-    navigateToPage('my-planner'); // Navigate to actual planner page
+    navigateToPage('my-planner');
     setTimeout(() => setShowPlanner(false), 2000);
   };
 
@@ -51,7 +52,7 @@ const App = () => {
     if (page !== currentPage) {
       setPageHistory(prev => [...prev, page]);
       setCurrentPage(page);
-      setShowHamburgerMenu(false); // Close hamburger menu when navigating
+      setShowHamburgerMenu(false);
     }
   };
 
@@ -59,7 +60,7 @@ const App = () => {
   const handleBackButton = () => {
     if (pageHistory.length > 1) {
       const newHistory = [...pageHistory];
-      newHistory.pop(); // Remove current page
+      newHistory.pop();
       const previousPage = newHistory[newHistory.length - 1];
       setPageHistory(newHistory);
       setCurrentPage(previousPage);
@@ -115,10 +116,10 @@ const App = () => {
         <span className="text-white text-xs font-medium">Wallet</span>
       </div>
 
-      {/* 5. Live Translator */}
+      {/* 5. Live Translator - Fixed to navigate to actual component */}
       <div 
         className={`flex flex-col items-center justify-center cursor-pointer transition-all p-2 rounded-lg ${activeTab === 'translator' ? 'bg-white/25 backdrop-blur-sm' : 'hover:bg-white/15'}`}
-        onClick={() => { setActiveTab('translator'); alert('🌐 Live Translator\n🗣️ Voice translation ready\n📝 Text translation available\n🇮🇳 Hindi ↔ English'); }}
+        onClick={() => { setActiveTab('translator'); navigateToPage('live-translator'); }}
       >
         <svg className="w-6 h-6 text-white mb-1" fill="currentColor" viewBox="0 0 24 24">
           <path d="M12.87 15.07l-2.54-2.51.03-.03c1.74-1.94 2.98-4.17 3.71-6.53H17V4h-7V2H8v2H1v1.99h11.17C11.5 7.92 10.44 9.75 9 11.35 8.07 10.32 7.3 9.19 6.69 8h-2c.73 1.63 1.73 3.17 2.98 4.56l-5.09 5.02L4 19l5-5 3.11 3.11.76-2.04zM18.5 10h-2L12 22h2l1.12-3h4.75L21 22h2l-4.5-12zm-2.62 7l1.62-4.33L19.12 17h-3.24z"/>
@@ -149,7 +150,7 @@ const App = () => {
       case 'safety-score':
         return <SafetyScore onBack={handleBackButton} />;
       case 'help-desk':
-        return <HelpDesk onBack={handleBackButton} />;
+        return <HelpDesk onBack={handleBackButton} navigateToPage={navigateToPage} />;
       case 'my-planner':
         return <MyPlanner onBack={handleBackButton} />;
       case 'offline-mode':
@@ -166,6 +167,8 @@ const App = () => {
         return <CommunityGuidelines onBack={handleBackButton} />;
       case 'profile-management':
         return <ProfileManagement onBack={handleBackButton} />;
+      case 'live-translator':
+        return <LiveTranslator onBack={handleBackButton} />;
       default:
         return (
           <div className="h-full overflow-y-auto pb-[90px]" style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
@@ -245,23 +248,23 @@ const App = () => {
                 </div>
               </div>
 
-              {/* Hamburger Dropdown Menu - Only on Home */}
+              {/* Hamburger Dropdown Menu - Fixed navigation */}
               {showHamburgerMenu && (
                 <div className="absolute top-20 right-5 bg-white shadow-xl rounded-lg border z-30 min-w-[250px]">
                   <div className="py-2">
-                    <button
-                      onClick={() => navigateToPage('profile-management')}
-                      className="w-full flex items-center gap-3 px-4 py-3 hover:bg-gray-100 transition-colors text-left"
-                    >
-                      <span className="text-lg">👤</span>
-                      <span className="text-gray-700 font-medium">Profile Management</span>
-                    </button>
                     <button
                       onClick={() => navigateToPage('settings')}
                       className="w-full flex items-center gap-3 px-4 py-3 hover:bg-gray-100 transition-colors text-left"
                     >
                       <span className="text-lg">⚙️</span>
                       <span className="text-gray-700 font-medium">Settings</span>
+                    </button>
+                    <button
+                      onClick={() => navigateToPage('profile-management')}
+                      className="w-full flex items-center gap-3 px-4 py-3 hover:bg-gray-100 transition-colors text-left"
+                    >
+                      <span className="text-lg">👤</span>
+                      <span className="text-gray-700 font-medium">Profile Management</span>
                     </button>
                     <button
                       onClick={() => navigateToPage('notifications')}
@@ -400,7 +403,6 @@ const App = () => {
                     <span className="text-[20px] font-bold text-gray-800">50%</span>
                   </div>
                 </div>
-                {/* Perfect Safety Score Text Alignment */}
                 <div className="text-[12px] font-semibold text-[#8B4513] text-center leading-tight">Safety Score</div>
               </div>
 
