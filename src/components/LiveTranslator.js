@@ -1,5 +1,5 @@
-// src/components/LiveTranslator.js - Working Translator with Gemini API
-import React, { useState, useRef, useEffect } from 'react';
+// src/components/LiveTranslator.js - Fixed useEffect dependency
+import React, { useState, useRef, useEffect, useCallback } from 'react';
 
 const LiveTranslator = ({ onBack }) => {
   const [sourceText, setSourceText] = useState('');
@@ -28,35 +28,8 @@ const LiveTranslator = ({ onBack }) => {
     { code: 'fr', name: 'French', flag: '🇫🇷' },
   ];
 
-  // Initialize Speech Recognition
-  useEffect(() => {
-    if ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window) {
-      const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-      recognition.current = new SpeechRecognition();
-      recognition.current.continuous = false;
-      recognition.current.interimResults = false;
-      recognition.current.lang = sourceLang === 'en' ? 'en-US' : `${sourceLang}-IN`;
-
-      recognition.current.onresult = (event) => {
-        const transcript = event.results[0][0].transcript;
-        setSourceText(transcript);
-        setIsListening(false);
-        translateText(transcript);
-      };
-
-      recognition.current.onerror = () => {
-        setIsListening(false);
-        setError('Voice recognition failed. Please try again.');
-      };
-
-      recognition.current.onend = () => {
-        setIsListening(false);
-      };
-    }
-  }, [sourceLang]);
-
-  // Gemini API Translation Function
-  const translateText = async (text) => {
+  // Gemini API Translation Function - Memoized to fix dependency issue
+  const translateText = useCallback(async (text) => {
     if (!text.trim()) return;
 
     setIsTranslating(true);
@@ -96,7 +69,7 @@ const LiveTranslator = ({ onBack }) => {
     } finally {
       setIsTranslating(false);
     }
-  };
+  }, [sourceLang, targetLang]); // Added dependencies
 
   // Basic fallback translations for common phrases
   const getBasicTranslation = (text, from, to) => {
@@ -130,6 +103,33 @@ const LiveTranslator = ({ onBack }) => {
   const getLanguageName = (code) => {
     return languages.find(lang => lang.code === code)?.name || 'English';
   };
+
+  // Initialize Speech Recognition - Fixed dependency array
+  useEffect(() => {
+    if ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window) {
+      const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+      recognition.current = new SpeechRecognition();
+      recognition.current.continuous = false;
+      recognition.current.interimResults = false;
+      recognition.current.lang = sourceLang === 'en' ? 'en-US' : `${sourceLang}-IN`;
+
+      recognition.current.onresult = (event) => {
+        const transcript = event.results[0][0].transcript;
+        setSourceText(transcript);
+        setIsListening(false);
+        translateText(transcript);
+      };
+
+      recognition.current.onerror = () => {
+        setIsListening(false);
+        setError('Voice recognition failed. Please try again.');
+      };
+
+      recognition.current.onend = () => {
+        setIsListening(false);
+      };
+    }
+  }, [sourceLang, translateText]); // Fixed: Added translateText to dependencies
 
   const startListening = () => {
     if (recognition.current) {
