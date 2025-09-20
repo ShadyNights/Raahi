@@ -1,5 +1,4 @@
-// src/components/LiveTranslator.js - Final Fixed Version
-import React, { useState, useRef, useEffect, useCallback } from 'react';
+import React, { useState, useRef, useEffect, useCallback, useMemo } from 'react';
 
 const LiveTranslator = ({ onBack }) => {
   const [sourceText, setSourceText] = useState('');
@@ -13,27 +12,28 @@ const LiveTranslator = ({ onBack }) => {
   const recognition = useRef(null);
   const synthesis = useRef(window.speechSynthesis);
 
-  const languages = [
+  // Memoize the languages array so it's stable across renders
+  const languages = useMemo(() => ([
     { code: 'en', name: 'English', flag: '🇺🇸' },
     { code: 'hi', name: 'Hindi', flag: '🇮🇳' },
     { code: 'bn', name: 'Bengali', flag: '🇧🇩' },
-    { code: 'te', name: 'Telugu', flag: '🏴󠁩󠁮󠁴󠁧󠁿' },
-    { code: 'ta', name: 'Tamil', flag: '🏴󠁩󠁮󠁴󠁮󠁿' },
-    { code: 'mr', name: 'Marathi', flag: '🏴󠁩󠁮󠁭󠁨󠁿' },
-    { code: 'gu', name: 'Gujarati', flag: '🏴󠁩󠁮󠁧󠁪󠁿' },
-    { code: 'kn', name: 'Kannada', flag: '🏴󠁩󠁮󠁫󠁡󠁿' },
-    { code: 'ml', name: 'Malayalam', flag: '🏴󠁩󠁮󠁫󠁬󠁿' },
-    { code: 'pa', name: 'Punjabi', flag: '🏴󠁩󠁮󠁰󠁢󠁿' },
+    { code: 'te', name: 'Telugu', flag: '🏴' },
+    { code: 'ta', name: 'Tamil', flag: '🏴' },
+    { code: 'mr', name: 'Marathi', flag: '🏴' },
+    { code: 'gu', name: 'Gujarati', flag: '🏴' },
+    { code: 'kn', name: 'Kannada', flag: '🏴' },
+    { code: 'ml', name: 'Malayalam', flag: '🏴' },
+    { code: 'pa', name: 'Punjabi', flag: '🏴' },
     { code: 'ur', name: 'Urdu', flag: '🇵🇰' },
     { code: 'fr', name: 'French', flag: '🇫🇷' },
-  ];
+  ]), []);
 
-  // Helper function - Memoized to be used safely in useCallback
+  // Memoized helper for language name
   const getLanguageName = useCallback((code) => {
     return languages.find(lang => lang.code === code)?.name || 'English';
   }, [languages]);
 
-  // Basic fallback translations for common phrases
+  // Memoized basic translations fallback
   const getBasicTranslation = useCallback((text, from, to) => {
     const basicTranslations = {
       'en-hi': {
@@ -62,7 +62,6 @@ const LiveTranslator = ({ onBack }) => {
     return basicTranslations[key]?.[text.toLowerCase()] || `[Translation: ${text}]`;
   }, []);
 
-  // Gemini API Translation Function - Now with all dependencies properly included
   const translateText = useCallback(async (text) => {
     if (!text.trim()) return;
 
@@ -70,7 +69,6 @@ const LiveTranslator = ({ onBack }) => {
     setError('');
 
     try {
-      // Replace with your Gemini API key
       const GEMINI_API_KEY = process.env.REACT_APP_GEMINI_API_KEY || 'your-gemini-api-key-here';
       
       const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key=${GEMINI_API_KEY}`, {
@@ -96,16 +94,13 @@ const LiveTranslator = ({ onBack }) => {
       
       setTranslatedText(translation);
     } catch (error) {
-      console.error('Translation error:', error);
       setError('Translation failed. Please check your internet connection.');
-      // Fallback to basic translations
       setTranslatedText(getBasicTranslation(text, sourceLang, targetLang));
     } finally {
       setIsTranslating(false);
     }
-  }, [sourceLang, targetLang, getLanguageName, getBasicTranslation]); // Fixed: All dependencies included
+  }, [sourceLang, targetLang, getLanguageName, getBasicTranslation]);
 
-  // Initialize Speech Recognition - Fixed dependency array
   useEffect(() => {
     if ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window) {
       const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
@@ -130,7 +125,7 @@ const LiveTranslator = ({ onBack }) => {
         setIsListening(false);
       };
     }
-  }, [sourceLang, translateText]); // All dependencies are now properly managed
+  }, [sourceLang, translateText]);
 
   const startListening = () => {
     if (recognition.current) {
@@ -158,8 +153,6 @@ const LiveTranslator = ({ onBack }) => {
 
   return (
     <div className="h-full overflow-y-auto bg-gradient-to-b from-teal-400 to-cyan-500" style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
-      
-      {/* Header */}
       <div className="bg-gradient-to-r from-teal-500 to-cyan-600 p-4 pt-6">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-3">
@@ -184,10 +177,7 @@ const LiveTranslator = ({ onBack }) => {
         </div>
       </div>
 
-      {/* Content */}
       <div className="p-4 pb-24">
-        
-        {/* Language Selection */}
         <div className="bg-white rounded-lg p-4 mb-4 shadow-lg">
           <div className="flex items-center justify-between">
             <div className="flex-1">
@@ -231,7 +221,6 @@ const LiveTranslator = ({ onBack }) => {
           </div>
         </div>
 
-        {/* Input Section */}
         <div className="bg-white rounded-lg p-4 mb-4 shadow-lg">
           <div className="flex items-center justify-between mb-3">
             <span className="font-medium text-gray-700">
@@ -275,7 +264,6 @@ const LiveTranslator = ({ onBack }) => {
           </button>
         </div>
 
-        {/* Output Section */}
         <div className="bg-white rounded-lg p-4 shadow-lg">
           <div className="flex items-center justify-between mb-3">
             <span className="font-medium text-gray-700">
@@ -300,14 +288,12 @@ const LiveTranslator = ({ onBack }) => {
           </div>
         </div>
 
-        {/* Error Message */}
         {error && (
           <div className="bg-red-100 border border-red-300 text-red-700 p-3 rounded-lg mt-4">
             {error}
           </div>
         )}
 
-        {/* Quick Phrases */}
         <div className="bg-white rounded-lg p-4 mt-4 shadow-lg">
           <h3 className="font-semibold text-gray-800 mb-3">Quick Phrases</h3>
           <div className="grid grid-cols-1 gap-2">
@@ -327,7 +313,6 @@ const LiveTranslator = ({ onBack }) => {
         </div>
       </div>
 
-      {/* Fixed Bottom Navigation */}
       <nav className="fixed bottom-0 left-1/2 transform -translate-x-1/2 w-[390px] h-[80px] bg-gradient-to-r from-[#FF9223] via-[#FF7635] to-[#FF6B35] rounded-t-[25px] flex justify-around items-center shadow-2xl z-50">
         <div className="w-12 h-12 rounded-full flex items-center justify-center" onClick={onBack}>
           <svg className="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 24 24">
@@ -342,11 +327,6 @@ const LiveTranslator = ({ onBack }) => {
         <div className="w-12 h-12 rounded-full flex items-center justify-center">
           <svg className="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 24 24">
             <path d="M1 9l2 2c4.97-4.97 13.03-4.97 18 0l2-2C16.93 2.93 7.07 2.93 1 9zm8 8l3 3 3-3c-1.65-1.66-4.34-1.66-6 0zm-4-4l2 2c2.76-2.76 7.24-2.76 10 0l2-2C15.14 9.14 8.87 9.14 5 13z"/>
-          </svg>
-        </div>
-        <div className="w-12 h-12 rounded-full flex items-center justify-center">
-          <svg className="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 24 24">
-            <path d="M21 18v1c0 1.1-.9 2-2 2H5c-1.11 0-2-.9-2-2V5c0-1.1.89-2 2-2h14c1.1 0 2 .9 2 2v1h-9c-1.11 0-2 .9-2 2v8c0 1.1.89 2 2 2h9zm-9-2h10V8H12v8zm4-2.5c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5z"/>
           </svg>
         </div>
         <div className="w-12 h-12 rounded-full bg-white/25 backdrop-blur-sm flex items-center justify-center shadow-lg">
