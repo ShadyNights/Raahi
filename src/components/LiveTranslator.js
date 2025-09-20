@@ -1,4 +1,4 @@
-// src/components/LiveTranslator.js - Fixed useEffect dependency
+// src/components/LiveTranslator.js - Final Fixed Version
 import React, { useState, useRef, useEffect, useCallback } from 'react';
 
 const LiveTranslator = ({ onBack }) => {
@@ -28,7 +28,41 @@ const LiveTranslator = ({ onBack }) => {
     { code: 'fr', name: 'French', flag: '🇫🇷' },
   ];
 
-  // Gemini API Translation Function - Memoized to fix dependency issue
+  // Helper function - Memoized to be used safely in useCallback
+  const getLanguageName = useCallback((code) => {
+    return languages.find(lang => lang.code === code)?.name || 'English';
+  }, [languages]);
+
+  // Basic fallback translations for common phrases
+  const getBasicTranslation = useCallback((text, from, to) => {
+    const basicTranslations = {
+      'en-hi': {
+        'hello': 'नमस्ते',
+        'thank you': 'धन्यवाद',
+        'please': 'कृपया',
+        'sorry': 'माफ़ करें',
+        'yes': 'हाँ',
+        'no': 'नहीं',
+        'help': 'मदद',
+        'emergency': 'आपातकाल'
+      },
+      'hi-en': {
+        'नमस्ते': 'hello',
+        'धन्यवाद': 'thank you',
+        'कृपया': 'please',
+        'माफ़ करें': 'sorry',
+        'हाँ': 'yes',
+        'नहीं': 'no',
+        'मदद': 'help',
+        'आपातकाल': 'emergency'
+      }
+    };
+
+    const key = `${from}-${to}`;
+    return basicTranslations[key]?.[text.toLowerCase()] || `[Translation: ${text}]`;
+  }, []);
+
+  // Gemini API Translation Function - Now with all dependencies properly included
   const translateText = useCallback(async (text) => {
     if (!text.trim()) return;
 
@@ -69,40 +103,7 @@ const LiveTranslator = ({ onBack }) => {
     } finally {
       setIsTranslating(false);
     }
-  }, [sourceLang, targetLang]); // Added dependencies
-
-  // Basic fallback translations for common phrases
-  const getBasicTranslation = (text, from, to) => {
-    const basicTranslations = {
-      'en-hi': {
-        'hello': 'नमस्ते',
-        'thank you': 'धन्यवाद',
-        'please': 'कृपया',
-        'sorry': 'माफ़ करें',
-        'yes': 'हाँ',
-        'no': 'नहीं',
-        'help': 'मदद',
-        'emergency': 'आपातकाल'
-      },
-      'hi-en': {
-        'नमस्ते': 'hello',
-        'धन्यवाद': 'thank you',
-        'कृपया': 'please',
-        'माफ़ करें': 'sorry',
-        'हाँ': 'yes',
-        'नहीं': 'no',
-        'मदद': 'help',
-        'आपातकाल': 'emergency'
-      }
-    };
-
-    const key = `${from}-${to}`;
-    return basicTranslations[key]?.[text.toLowerCase()] || `[Translation: ${text}]`;
-  };
-
-  const getLanguageName = (code) => {
-    return languages.find(lang => lang.code === code)?.name || 'English';
-  };
+  }, [sourceLang, targetLang, getLanguageName, getBasicTranslation]); // Fixed: All dependencies included
 
   // Initialize Speech Recognition - Fixed dependency array
   useEffect(() => {
@@ -129,7 +130,7 @@ const LiveTranslator = ({ onBack }) => {
         setIsListening(false);
       };
     }
-  }, [sourceLang, translateText]); // Fixed: Added translateText to dependencies
+  }, [sourceLang, translateText]); // All dependencies are now properly managed
 
   const startListening = () => {
     if (recognition.current) {
