@@ -116,13 +116,13 @@ const App = () => {
         <span className="text-white text-xs font-medium">Wallet</span>
       </div>
 
-      {/* 5. Live Translator - Fixed to navigate to actual component */}
+      {/* 5. Live Translator */}
       <div 
         className={`flex flex-col items-center justify-center cursor-pointer transition-all p-2 rounded-lg ${activeTab === 'translator' ? 'bg-white/25 backdrop-blur-sm' : 'hover:bg-white/15'}`}
         onClick={() => { setActiveTab('translator'); navigateToPage('live-translator'); }}
       >
         <svg className="w-6 h-6 text-white mb-1" fill="currentColor" viewBox="0 0 24 24">
-          <path d="M12.87 15.07l-2.54-2.51.03-.03c1.74-1.94 2.98-4.17 3.71-6.53H17V4h-7V2H8v2H1v1.99h11.17C11.5 7.92 10.44 9.75 9 11.35 8.07 10.32 7.3 9.19 6.69 8h-2c.73 1.63 1.73 3.17 2.98 4.56l-5.09 5.02L4 19l5-5 3.11 3.11.76-2.04zM18.5 10h-2L12 22h2l1.12-3h4.75L21 22h2l-4.5-12zm-2.62 7l1.62-4.33L19.12 17h-3.24z"/>
+          <path d="M12.87 15.07l-2.54-2.51.03-.03c1.74-1.94 2.98-4.17 3.71-6.53H17V4h-7V2H8v2H1v1.99h11.17C11.5 7.92 10.44 9.75 9 11.35 8.07 10.32 7.3 9.19 6.69 8h-2c.73 1.63 1.73 3.17 2.98 4.56l-5.09 5.02L4 19l5-5 3.11 3.11.76-2.04z"/>
         </svg>
         <span className="text-white text-xs font-medium">Translator</span>
       </div>
@@ -219,7 +219,7 @@ const App = () => {
                   </div>
                 </div>
 
-                {/* Right Controls */}
+                {/* Right Controls - Only on Home Page */}
                 <div className="flex items-center gap-4">
                   {/* Notification Bell */}
                   <div className="relative">
@@ -236,7 +236,7 @@ const App = () => {
                     </div>
                   </div>
                   
-                  {/* Hamburger Menu - Only on Home Page */}
+                  {/* Hamburger Menu - ONLY on Home Page */}
                   <div 
                     className="flex flex-col justify-between w-7 h-5 cursor-pointer hover:scale-105 transition-transform hamburger-menu"
                     onClick={() => setShowHamburgerMenu(!showHamburgerMenu)}
@@ -248,7 +248,7 @@ const App = () => {
                 </div>
               </div>
 
-              {/* Hamburger Dropdown Menu - Fixed navigation */}
+              {/* Hamburger Dropdown Menu - ONLY on Home Page */}
               {showHamburgerMenu && (
                 <div className="absolute top-20 right-5 bg-white shadow-xl rounded-lg border z-30 min-w-[250px]">
                   <div className="py-2">
