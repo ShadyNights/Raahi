@@ -751,7 +751,9 @@ We're here to help 24/7!`)}
       <div className="w-[390px] h-screen bg-gradient-to-b from-[#FFF8E7] to-[#FFFFFF] relative overflow-hidden shadow-2xl">
         
         {renderPage()}
-        {/* Navigation is rendered within renderPage() based on current state */}
+        
+        {/* Universal Navigation - Always render unless hamburger menu is active */}
+        {!showHamburgerMenu && renderUniversalNavbar()}
       </div>
     </div>
   );
