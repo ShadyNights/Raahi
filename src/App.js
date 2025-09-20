@@ -1,4 +1,4 @@
-// src/App.js - Fixed hamburger menu error
+// src/App.js - Complete with Full-Page Hamburger Menu
 import React, { useState, useEffect } from 'react';
 import './App.css';
 
@@ -53,7 +53,7 @@ const App = () => {
     if (page !== currentPage) {
       setPageHistory(prev => [...prev, page]);
       setCurrentPage(page);
-      setShowHamburgerMenu(false); // Close hamburger menu when navigating
+      setShowHamburgerMenu(false);
     }
   };
 
@@ -69,17 +69,14 @@ const App = () => {
     }
   };
 
-  // Handle clicks outside hamburger menu to close it
-  useEffect(() => {
-    const handleClick = (e) => {
-      if (showHamburgerMenu && !e.target.closest('.hamburger-container')) {
-        setShowHamburgerMenu(false);
-      }
-    };
+  // Handle hamburger menu
+  const handleHamburgerClick = () => {
+    setShowHamburgerMenu(!showHamburgerMenu);
+  };
 
-    document.addEventListener('click', handleClick);
-    return () => document.removeEventListener('click', handleClick);
-  }, [showHamburgerMenu]);
+  const closeHamburgerMenu = () => {
+    setShowHamburgerMenu(false);
+  };
 
   const renderUniversalNavbar = () => (
     <nav className="fixed bottom-0 left-1/2 transform -translate-x-1/2 w-[390px] h-[80px] bg-gradient-to-r from-[#FF9223] via-[#FF7635] to-[#FF6B35] rounded-t-[25px] flex justify-around items-center shadow-2xl z-50">
@@ -142,7 +139,293 @@ const App = () => {
     </nav>
   );
 
+  // Full-Page Hamburger Menu Component
+  const renderFullPageHamburgerMenu = () => (
+    <div className="fixed inset-0 bg-gradient-to-br from-orange-400 to-red-500 z-[100] animate-slide-in">
+      
+      {/* Header */}
+      <div className="bg-gradient-to-r from-orange-500 to-red-600 p-4 pt-6">
+        <div className="flex items-center justify-between">
+          <div className="flex items-center gap-3">
+            <button 
+              onClick={closeHamburgerMenu}
+              className="w-8 h-8 bg-white/20 rounded-full flex items-center justify-center"
+            >
+              <svg className="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/>
+              </svg>
+            </button>
+            <div className="text-white">
+              <h1 className="font-bold text-lg">RAAHI Menu</h1>
+              <p className="text-white/80 text-sm">Choose your destination</p>
+            </div>
+          </div>
+          <div className="w-8 h-8 bg-white/20 rounded-full flex items-center justify-center">
+            <svg className="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 24 24">
+              <path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/>
+            </svg>
+          </div>
+        </div>
+      </div>
+
+      {/* Content */}
+      <div className="p-4 pb-24 h-full overflow-y-auto" style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
+        
+        {/* Main Categories */}
+        <div className="mb-8">
+          <h2 className="text-white text-lg font-bold mb-4">Main Features</h2>
+          <div className="grid grid-cols-1 gap-4">
+            
+            <button
+              onClick={() => navigateToPage('settings')}
+              className="bg-white/10 backdrop-blur-sm rounded-xl p-4 flex items-center gap-4 hover:bg-white/20 transition-all"
+            >
+              <div className="w-12 h-12 bg-white/20 rounded-full flex items-center justify-center">
+                <span className="text-2xl">⚙️</span>
+              </div>
+              <div className="text-left">
+                <h3 className="text-white font-semibold text-lg">Settings</h3>
+                <p className="text-white/70 text-sm">App preferences & configuration</p>
+              </div>
+              <svg className="w-5 h-5 text-white/60 ml-auto" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.41z"/>
+              </svg>
+            </button>
+
+            <button
+              onClick={() => navigateToPage('profile-management')}
+              className="bg-white/10 backdrop-blur-sm rounded-xl p-4 flex items-center gap-4 hover:bg-white/20 transition-all"
+            >
+              <div className="w-12 h-12 bg-white/20 rounded-full flex items-center justify-center">
+                <span className="text-2xl">👤</span>
+              </div>
+              <div className="text-left">
+                <h3 className="text-white font-semibold text-lg">Profile Management</h3>
+                <p className="text-white/70 text-sm">Your personal travel profile</p>
+              </div>
+              <svg className="w-5 h-5 text-white/60 ml-auto" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.41z"/>
+              </svg>
+            </button>
+
+            <button
+              onClick={() => navigateToPage('safety-score')}
+              className="bg-white/10 backdrop-blur-sm rounded-xl p-4 flex items-center gap-4 hover:bg-white/20 transition-all"
+            >
+              <div className="w-12 h-12 bg-white/20 rounded-full flex items-center justify-center">
+                <span className="text-2xl">📊</span>
+              </div>
+              <div className="text-left">
+                <h3 className="text-white font-semibold text-lg">Safety Score</h3>
+                <p className="text-white/70 text-sm">Your current safety rating</p>
+              </div>
+              <svg className="w-5 h-5 text-white/60 ml-auto" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.41z"/>
+              </svg>
+            </button>
+          </div>
+        </div>
+
+        {/* Help & Support */}
+        <div className="mb-8">
+          <h2 className="text-white text-lg font-bold mb-4">Help & Support</h2>
+          <div className="grid grid-cols-1 gap-4">
+            
+            <button
+              onClick={() => navigateToPage('help-sos')}
+              className="bg-white/10 backdrop-blur-sm rounded-xl p-4 flex items-center gap-4 hover:bg-white/20 transition-all"
+            >
+              <div className="w-12 h-12 bg-white/20 rounded-full flex items-center justify-center">
+                <span className="text-2xl">🆘</span>
+              </div>
+              <div className="text-left">
+                <h3 className="text-white font-semibold">SOS Guide</h3>
+                <p className="text-white/70 text-sm">Emergency help instructions</p>
+              </div>
+              <svg className="w-5 h-5 text-white/60 ml-auto" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.41z"/>
+              </svg>
+            </button>
+
+            <button
+              onClick={() => navigateToPage('help-blockchain')}
+              className="bg-white/10 backdrop-blur-sm rounded-xl p-4 flex items-center gap-4 hover:bg-white/20 transition-all"
+            >
+              <div className="w-12 h-12 bg-white/20 rounded-full flex items-center justify-center">
+                <span className="text-2xl">🔐</span>
+              </div>
+              <div className="text-left">
+                <h3 className="text-white font-semibold">Blockchain Security</h3>
+                <p className="text-white/70 text-sm">Advanced security features</p>
+              </div>
+              <svg className="w-5 h-5 text-white/60 ml-auto" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.41z"/>
+              </svg>
+            </button>
+
+            <button
+              onClick={() => navigateToPage('help-desk')}
+              className="bg-white/10 backdrop-blur-sm rounded-xl p-4 flex items-center gap-4 hover:bg-white/20 transition-all"
+            >
+              <div className="w-12 h-12 bg-white/20 rounded-full flex items-center justify-center">
+                <span className="text-2xl">❓</span>
+              </div>
+              <div className="text-left">
+                <h3 className="text-white font-semibold">Help Desk</h3>
+                <p className="text-white/70 text-sm">General support & FAQs</p>
+              </div>
+              <svg className="w-5 h-5 text-white/60 ml-auto" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.41z"/>
+              </svg>
+            </button>
+          </div>
+        </div>
+
+        {/* Community & Guidelines */}
+        <div className="mb-8">
+          <h2 className="text-white text-lg font-bold mb-4">Community</h2>
+          <div className="grid grid-cols-1 gap-4">
+            
+            <button
+              onClick={() => navigateToPage('community')}
+              className="bg-white/10 backdrop-blur-sm rounded-xl p-4 flex items-center gap-4 hover:bg-white/20 transition-all"
+            >
+              <div className="w-12 h-12 bg-white/20 rounded-full flex items-center justify-center">
+                <span className="text-2xl">👥</span>
+              </div>
+              <div className="text-left">
+                <h3 className="text-white font-semibold">Community</h3>
+                <p className="text-white/70 text-sm">Connect with fellow travelers</p>
+              </div>
+              <svg className="w-5 h-5 text-white/60 ml-auto" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.41z"/>
+              </svg>
+            </button>
+
+            <button
+              onClick={() => navigateToPage('community-guidelines')}
+              className="bg-white/10 backdrop-blur-sm rounded-xl p-4 flex items-center gap-4 hover:bg-white/20 transition-all"
+            >
+              <div className="w-12 h-12 bg-white/20 rounded-full flex items-center justify-center">
+                <span className="text-2xl">📋</span>
+              </div>
+              <div className="text-left">
+                <h3 className="text-white font-semibold">Community Guidelines</h3>
+                <p className="text-white/70 text-sm">Rules & best practices</p>
+              </div>
+              <svg className="w-5 h-5 text-white/60 ml-auto" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.41z"/>
+              </svg>
+            </button>
+          </div>
+        </div>
+
+        {/* Getting Started */}
+        <div className="mb-8">
+          <h2 className="text-white text-lg font-bold mb-4">Getting Started</h2>
+          <div className="grid grid-cols-1 gap-4">
+            
+            <button
+              onClick={() => navigateToPage('getting-started')}
+              className="bg-white/10 backdrop-blur-sm rounded-xl p-4 flex items-center gap-4 hover:bg-white/20 transition-all"
+            >
+              <div className="w-12 h-12 bg-white/20 rounded-full flex items-center justify-center">
+                <span className="text-2xl">🚀</span>
+              </div>
+              <div className="text-left">
+                <h3 className="text-white font-semibold">Getting Started</h3>
+                <p className="text-white/70 text-sm">App tutorial & first steps</p>
+              </div>
+              <svg className="w-5 h-5 text-white/60 ml-auto" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.41z"/>
+              </svg>
+            </button>
+
+            <button
+              onClick={() => navigateToPage('welcome')}
+              className="bg-white/10 backdrop-blur-sm rounded-xl p-4 flex items-center gap-4 hover:bg-white/20 transition-all"
+            >
+              <div className="w-12 h-12 bg-white/20 rounded-full flex items-center justify-center">
+                <span className="text-2xl">👋</span>
+              </div>
+              <div className="text-left">
+                <h3 className="text-white font-semibold">Welcome Guide</h3>
+                <p className="text-white/70 text-sm">Introduction to India travel</p>
+              </div>
+              <svg className="w-5 h-5 text-white/60 ml-auto" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.41z"/>
+              </svg>
+            </button>
+
+            <button
+              onClick={() => navigateToPage('safety-zone-info')}
+              className="bg-white/10 backdrop-blur-sm rounded-xl p-4 flex items-center gap-4 hover:bg-white/20 transition-all"
+            >
+              <div className="w-12 h-12 bg-white/20 rounded-full flex items-center justify-center">
+                <span className="text-2xl">🛡️</span>
+              </div>
+              <div className="text-left">
+                <h3 className="text-white font-semibold">Safety Zone Info</h3>
+                <p className="text-white/70 text-sm">Safety information & zones</p>
+              </div>
+              <svg className="w-5 h-5 text-white/60 ml-auto" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.41z"/>
+              </svg>
+            </button>
+          </div>
+        </div>
+
+        {/* About & Contact */}
+        <div className="mb-8">
+          <h2 className="text-white text-lg font-bold mb-4">About</h2>
+          <div className="grid grid-cols-1 gap-4">
+            
+            <button
+              onClick={() => alert('RAAHI Travel App v2.0.0\n\nYour trusted companion for safe travel in India.\n\nDeveloped with ❤️ for travelers worldwide.')}
+              className="bg-white/10 backdrop-blur-sm rounded-xl p-4 flex items-center gap-4 hover:bg-white/20 transition-all"
+            >
+              <div className="w-12 h-12 bg-white/20 rounded-full flex items-center justify-center">
+                <span className="text-2xl">ℹ️</span>
+              </div>
+              <div className="text-left">
+                <h3 className="text-white font-semibold">About RAAHI</h3>
+                <p className="text-white/70 text-sm">App info & version details</p>
+              </div>
+              <svg className="w-5 h-5 text-white/60 ml-auto" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.41z"/>
+              </svg>
+            </button>
+
+            <button
+              onClick={() => alert('Contact RAAHI Support\n\n📧 Email: support@raahi.com\n📞 Phone: +91-1800-RAAHI\n🌐 Website: www.raahi.com\n\nWe\'re here to help 24/7!')}
+              className="bg-white/10 backdrop-blur-sm rounded-xl p-4 flex items-center gap-4 hover:bg-white/20 transition-all"
+            >
+              <div className="w-12 h-12 bg-white/20 rounded-full flex items-center justify-center">
+                <span className="text-2xl">📞</span>
+              </div>
+              <div className="text-left">
+                <h3 className="text-white font-semibold">Contact Support</h3>
+                <p className="text-white/70 text-sm">Get help from our team</p>
+              </div>
+              <svg className="w-5 h-5 text-white/60 ml-auto" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.41z"/>
+              </svg>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      {/* Bottom Navigation - Same as main app */}
+      {renderUniversalNavbar()}
+    </div>
+  );
+
   const renderPage = () => {
+    // Show full-page hamburger menu if active
+    if (showHamburgerMenu) {
+      return renderFullPageHamburgerMenu();
+    }
+
     switch (currentPage) {
       case 'sos':
         return <SOSComponent onBack={handleBackButton} />;
@@ -186,7 +469,7 @@ const App = () => {
         return (
           <div className="h-full overflow-y-auto pb-[90px]" style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
             
-            {/* Home Header Section - Perfect Alignment */}
+            {/* Home Header Section */}
             <header className="relative h-[320px] bg-gradient-to-b from-[#FFF8E7] via-[#FFF5E1] to-[#FFE8C8] overflow-hidden">
               
               {/* Taj Mahal Silhouette Background */}
@@ -249,125 +532,14 @@ const App = () => {
                     </div>
                   </div>
                   
-                  {/* FIXED Hamburger Menu - ONLY on Home Page */}
-                  <div className="hamburger-container relative">
-                    <div 
-                      className="flex flex-col justify-between w-7 h-5 cursor-pointer hover:scale-105 transition-transform"
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        setShowHamburgerMenu(!showHamburgerMenu);
-                      }}
-                    >
-                      <div className="w-full h-[3px] bg-gradient-to-r from-[#FF6B35] to-[#FF8F00] rounded-full"></div>
-                      <div className="w-full h-[3px] bg-gradient-to-r from-[#FF6B35] to-[#FF8F00] rounded-full"></div>
-                      <div className="w-full h-[3px] bg-gradient-to-r from-[#FF6B35] to-[#FF8F00] rounded-full"></div>
-                    </div>
-
-                    {/* FIXED Hamburger Dropdown Menu */}
-                    {showHamburgerMenu && (
-                      <div className="absolute top-8 right-0 bg-white shadow-xl rounded-lg border z-30 min-w-[250px] max-h-96 overflow-y-auto">
-                        <div className="py-2">
-                          <button
-                            onClick={() => navigateToPage('settings')}
-                            className="w-full flex items-center gap-3 px-4 py-3 hover:bg-gray-100 transition-colors text-left"
-                          >
-                            <span className="text-lg">⚙️</span>
-                            <span className="text-gray-700 font-medium">Settings</span>
-                          </button>
-                          <button
-                            onClick={() => navigateToPage('profile-management')}
-                            className="w-full flex items-center gap-3 px-4 py-3 hover:bg-gray-100 transition-colors text-left"
-                          >
-                            <span className="text-lg">👤</span>
-                            <span className="text-gray-700 font-medium">Profile Management</span>
-                          </button>
-                          <button
-                            onClick={() => navigateToPage('notifications')}
-                            className="w-full flex items-center gap-3 px-4 py-3 hover:bg-gray-100 transition-colors text-left"
-                          >
-                            <span className="text-lg">🔔</span>
-                            <span className="text-gray-700 font-medium">Notifications</span>
-                          </button>
-                          <button
-                            onClick={() => navigateToPage('safety-score')}
-                            className="w-full flex items-center gap-3 px-4 py-3 hover:bg-gray-100 transition-colors text-left"
-                          >
-                            <span className="text-lg">📊</span>
-                            <span className="text-gray-700 font-medium">Safety Score</span>
-                          </button>
-                          <button
-                            onClick={() => navigateToPage('help-sos')}
-                            className="w-full flex items-center gap-3 px-4 py-3 hover:bg-gray-100 transition-colors text-left"
-                          >
-                            <span className="text-lg">🆘</span>
-                            <span className="text-gray-700 font-medium">Help - SOS Guide</span>
-                          </button>
-                          <button
-                            onClick={() => navigateToPage('help-blockchain')}
-                            className="w-full flex items-center gap-3 px-4 py-3 hover:bg-gray-100 transition-colors text-left"
-                          >
-                            <span className="text-lg">🔐</span>
-                            <span className="text-gray-700 font-medium">Help - Blockchain Security</span>
-                          </button>
-                          <button
-                            onClick={() => navigateToPage('community-guidelines')}
-                            className="w-full flex items-center gap-3 px-4 py-3 hover:bg-gray-100 transition-colors text-left"
-                          >
-                            <span className="text-lg">📋</span>
-                            <span className="text-gray-700 font-medium">Community Guidelines</span>
-                          </button>
-                          <button
-                            onClick={() => navigateToPage('community')}
-                            className="w-full flex items-center gap-3 px-4 py-3 hover:bg-gray-100 transition-colors text-left"
-                          >
-                            <span className="text-lg">👥</span>
-                            <span className="text-gray-700 font-medium">Community</span>
-                          </button>
-                          <button
-                            onClick={() => navigateToPage('help-desk')}
-                            className="w-full flex items-center gap-3 px-4 py-3 hover:bg-gray-100 transition-colors text-left"
-                          >
-                            <span className="text-lg">❓</span>
-                            <span className="text-gray-700 font-medium">Help Desk</span>
-                          </button>
-                          <button
-                            onClick={() => navigateToPage('getting-started')}
-                            className="w-full flex items-center gap-3 px-4 py-3 hover:bg-gray-100 transition-colors text-left"
-                          >
-                            <span className="text-lg">🚀</span>
-                            <span className="text-gray-700 font-medium">Getting Started</span>
-                          </button>
-                          <button
-                            onClick={() => navigateToPage('welcome')}
-                            className="w-full flex items-center gap-3 px-4 py-3 hover:bg-gray-100 transition-colors text-left"
-                          >
-                            <span className="text-lg">👋</span>
-                            <span className="text-gray-700 font-medium">Welcome Guide</span>
-                          </button>
-                          <button
-                            onClick={() => navigateToPage('safety-zone-info')}
-                            className="w-full flex items-center gap-3 px-4 py-3 hover:bg-gray-100 transition-colors text-left"
-                          >
-                            <span className="text-lg">🛡️</span>
-                            <span className="text-gray-700 font-medium">Safety Zone Info</span>
-                          </button>
-                          <button
-                            onClick={() => alert('About RAAHI App v2.0.0')}
-                            className="w-full flex items-center gap-3 px-4 py-3 hover:bg-gray-100 transition-colors text-left"
-                          >
-                            <span className="text-lg">ℹ️</span>
-                            <span className="text-gray-700 font-medium">About RAAHI</span>
-                          </button>
-                          <button
-                            onClick={() => alert('Contact: support@raahi.com')}
-                            className="w-full flex items-center gap-3 px-4 py-3 hover:bg-gray-100 transition-colors text-left"
-                          >
-                            <span className="text-lg">📞</span>
-                            <span className="text-gray-700 font-medium">Contact Support</span>
-                          </button>
-                        </div>
-                      </div>
-                    )}
+                  {/* Hamburger Menu Button - Opens Full Page */}
+                  <div 
+                    className="flex flex-col justify-between w-7 h-5 cursor-pointer hover:scale-105 transition-transform"
+                    onClick={handleHamburgerClick}
+                  >
+                    <div className="w-full h-[3px] bg-gradient-to-r from-[#FF6B35] to-[#FF8F00] rounded-full"></div>
+                    <div className="w-full h-[3px] bg-gradient-to-r from-[#FF6B35] to-[#FF8F00] rounded-full"></div>
+                    <div className="w-full h-[3px] bg-gradient-to-r from-[#FF6B35] to-[#FF8F00] rounded-full"></div>
                   </div>
                 </div>
               </div>
@@ -386,7 +558,7 @@ const App = () => {
               </div>
             </header>
 
-            {/* Main Content */}
+            {/* Main Content - Rest of home page content */}
             <main className="px-5 py-6 bg-gradient-to-b from-white to-[#FFFBF7] relative">
               
               {/* User Greeting */}
@@ -395,7 +567,7 @@ const App = () => {
                 <p className="text-[16px] text-gray-600 font-medium">Travel id - trav2Steel</p>
               </div>
 
-              {/* Fixed Safety Score Alignment - Perfect Position */}
+              {/* Safety Score */}
               <div className="absolute top-4 right-6 text-center cursor-pointer" onClick={() => navigateToPage('safety-score')}>
                 <div className="relative w-[90px] h-[90px] mb-2 hover:scale-105 transition-transform">
                   <svg className="w-full h-full transform -rotate-90" viewBox="0 0 90 90">
@@ -424,10 +596,10 @@ const App = () => {
                 <div className="text-[12px] font-semibold text-[#8B4513] text-center leading-tight">Safety Score</div>
               </div>
 
-              {/* Feature Buttons with Perfect Corrected Alignment */}
+              {/* Feature Buttons */}
               <div className="flex justify-between items-start px-8 mb-8 mt-8">
                 
-                {/* Planner - Slightly Down */}
+                {/* Planner */}
                 <div className="flex flex-col items-center gap-4 cursor-pointer hover:scale-105 transition-transform mt-4" 
                      onClick={handlePlanner}>
                   <div className={`w-[70px] h-[70px] rounded-full bg-gradient-to-br from-[#00BFFF] to-[#1E90FF] flex items-center justify-center shadow-xl ${showPlanner ? 'animate-bounce' : ''}`}>
@@ -438,19 +610,17 @@ const App = () => {
                   <span className="text-[14px] font-semibold text-gray-800">Planner</span>
                 </div>
 
-                {/* SOS - Slightly Up */}
+                {/* SOS */}
                 <div className="flex flex-col items-center gap-4 cursor-pointer -mt-2" onClick={handleSOS}>
                   <div className={`relative w-[70px] h-[70px] rounded-full bg-gradient-to-br from-[#FF0000] to-[#DC143C] flex items-center justify-center shadow-xl ${showSOS ? 'animate-pulse' : ''}`}>
-                    {/* Pulsing Rings */}
                     <div className="absolute w-[85px] h-[85px] border-4 border-red-300/60 rounded-full animate-ping"></div>
                     <div className="absolute w-[100px] h-[100px] border-3 border-red-200/40 rounded-full animate-ping animation-delay-500"></div>
-                    {/* SOS Text */}
                     <span className="text-[16px] font-black text-white z-10 tracking-wider">SOS</span>
                   </div>
                   <span className="text-[16px] font-bold text-[#FF0000]">SOS</span>
                 </div>
 
-                {/* Zone - Slightly Down */}
+                {/* Zone */}
                 <div className="flex flex-col items-center gap-4 cursor-pointer hover:scale-105 transition-transform mt-4" 
                      onClick={handleZone}>
                   <div className={`w-[70px] h-[70px] rounded-full bg-gradient-to-br from-[#00FF7F] to-[#32CD32] flex items-center justify-center shadow-xl ${showZone ? 'animate-spin' : ''}`}>
@@ -463,7 +633,7 @@ const App = () => {
                 </div>
               </div>
 
-              {/* Travel History - Perfect Spacing */}
+              {/* Travel History */}
               <div className="bg-white rounded-[25px] border-3 border-[#FF6B35] p-6 shadow-lg mb-6 mt-6">
                 <h3 className="text-[20px] font-bold text-gray-800 text-center mb-6">Travel History</h3>
                 
@@ -571,7 +741,7 @@ const App = () => {
       <div className="w-[390px] h-screen bg-gradient-to-b from-[#FFF8E7] to-[#FFFFFF] relative overflow-hidden shadow-2xl">
         
         {renderPage()}
-        {renderUniversalNavbar()}
+        {/* Navigation is rendered within renderPage() based on current state */}
       </div>
     </div>
   );
