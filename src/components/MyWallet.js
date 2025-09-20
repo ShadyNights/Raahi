@@ -1,116 +1,155 @@
+// src/components/MyWallet.js - Complete Wallet with Document Management
 import React, { useState } from 'react';
 
 const MyWallet = ({ onBack }) => {
-  const [currentView, setCurrentView] = useState('main'); // 'main' or 'scrollable'
+  const [currentView, setCurrentView] = useState('main'); // 'main' or 'documents'
+  const [documents, setDocuments] = useState([
+    {
+      id: 1,
+      type: 'passport',
+      title: 'Passport',
+      subtitle: '5 entities',
+      icon: '🛂',
+      status: 'verified',
+      color: 'from-blue-500 to-blue-600',
+      details: {
+        number: 'A12345678',
+        expiry: '2030-12-31',
+        country: 'India'
+      }
+    },
+    {
+      id: 2,
+      type: 'aadhar',
+      title: 'Aadhar Card',
+      subtitle: '5 entities',
+      icon: '🆔',
+      status: 'verified',
+      color: 'from-green-500 to-green-600',
+      details: {
+        number: 'XXXX-XXXX-1234',
+        name: 'John Doe'
+      }
+    },
+    {
+      id: 3,
+      type: 'visa',
+      title: 'Visa',
+      subtitle: '5 entities',
+      icon: '📋',
+      status: 'pending',
+      color: 'from-orange-500 to-orange-600',
+      details: {
+        type: 'Tourist Visa',
+        country: 'USA',
+        validity: '2025-06-30'
+      }
+    },
+    {
+      id: 4,
+      type: 'insurance',
+      title: 'Travel Insurance',
+      subtitle: '5 entities',
+      icon: '🛡️',
+      status: 'verified',
+      color: 'from-teal-500 to-teal-600',
+      details: {
+        policy: 'TI-123456',
+        coverage: '$100,000',
+        expiry: '2025-12-31'
+      }
+    },
+    {
+      id: 5,
+      type: 'flight',
+      title: 'Flight Insurance',
+      subtitle: '5 entities',
+      icon: '✈️',
+      status: 'verified',
+      color: 'from-purple-500 to-purple-600',
+      details: {
+        flight: 'AI-101',
+        date: '2025-01-15',
+        coverage: '$50,000'
+      }
+    },
+    {
+      id: 6,
+      type: 'tickets',
+      title: 'Flight Tickets',
+      subtitle: '5 entities',
+      icon: '🎫',
+      status: 'verified',
+      color: 'from-indigo-500 to-indigo-600',
+      details: {
+        from: 'Delhi (DEL)',
+        to: 'Mumbai (BOM)',
+        date: '2025-01-15'
+      }
+    },
+    {
+      id: 7,
+      type: 'hotel',
+      title: 'Hotel Bookings',
+      subtitle: '5 entities',
+      icon: '🏨',
+      status: 'verified',
+      color: 'from-pink-500 to-pink-600',
+      details: {
+        hotel: 'Taj Hotel',
+        checkin: '2025-01-15',
+        checkout: '2025-01-20'
+      }
+    },
+    {
+      id: 8,
+      type: 'other',
+      title: 'Other Documents',
+      subtitle: '5 entities',
+      icon: '📄',
+      status: 'pending',
+      color: 'from-gray-500 to-gray-600',
+      details: {
+        count: '12 documents',
+        type: 'Various'
+      }
+    }
+  ]);
 
-  const documents = {
-    main: [
-      { 
-        id: 1, 
-        name: 'Passport', 
-        status: 'S entified', 
-        icon: '🛂',
-        color: 'bg-blue-500'
-      },
-      { 
-        id: 2, 
-        name: 'Aadhar Card', 
-        status: 'S entified', 
-        icon: '👤',
-        color: 'bg-green-500'
-      },
-      { 
-        id: 3, 
-        name: 'Aadhar Card', 
-        status: 'S entified', 
-        icon: '🆔',
-        color: 'bg-green-600'
-      },
-      { 
-        id: 4, 
-        name: 'Visa', 
-        status: 'S entified', 
-        icon: '📋',
-        color: 'bg-orange-500'
-      }
-    ],
-    scrollable: [
-      { 
-        id: 1, 
-        name: 'Travel Insurance', 
-        status: 'S entified', 
-        icon: '📄',
-        color: 'bg-blue-500'
-      },
-      { 
-        id: 2, 
-        name: 'Flight Insurance', 
-        status: 'S entified', 
-        icon: '🛡️',
-        color: 'bg-green-500'
-      },
-      { 
-        id: 3, 
-        name: 'Flight Tickets', 
-        status: 'S entified', 
-        icon: '✈️',
-        color: 'bg-blue-600'
-      },
-      { 
-        id: 4, 
-        name: 'Hotel Bookings', 
-        status: 'S entified', 
-        icon: '🏨',
-        color: 'bg-purple-500'
-      },
-      { 
-        id: 5, 
-        name: 'Other Documents', 
-        status: 'S entified', 
-        icon: '📋',
-        color: 'bg-gray-500'
-      }
-    ]
+  const [selectedDocument, setSelectedDocument] = useState(null);
+  const [showAddForm, setShowAddForm] = useState(false);
+
+  const handleAddDocument = () => {
+    setShowAddForm(true);
+  };
+
+  const handleViewDocument = (doc) => {
+    setSelectedDocument(doc);
   };
 
   const renderMainView = () => (
     <div className="pb-24">
-      {/* Important Documents Section */}
+      {/* Important Documents Header */}
       <div className="mb-6">
-        <h2 className="text-lg font-semibold text-gray-800 mb-4">Important Documents</h2>
+        <h2 className="text-xl font-bold text-gray-800 mb-4">Important Documents</h2>
         
-        <div className="space-y-3">
-          {documents.main.map((doc) => (
-            <div key={doc.id} className="bg-white rounded-lg p-4 flex items-center justify-between shadow-sm border border-gray-200">
+        {/* Primary Documents */}
+        <div className="grid grid-cols-1 gap-4 mb-6">
+          {documents.slice(0, 4).map((doc) => (
+            <div key={doc.id} className="bg-white rounded-lg p-4 flex items-center justify-between shadow-sm border border-gray-100">
               <div className="flex items-center gap-3">
-                <div className={`w-12 h-12 ${doc.color} rounded-lg flex items-center justify-center text-white`}>
-                  {doc.name === 'Passport' && (
-                    <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
-                      <path d="M14,2H6A2,2 0 0,0 4,4V20A2,2 0 0,0 6,22H18A2,2 0 0,0 20,20V8L14,2M18,20H6V4H13V9H18V20Z"/>
-                    </svg>
-                  )}
-                  {doc.name === 'Aadhar Card' && doc.id === 2 && (
-                    <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
-                      <path d="M12,4A4,4 0 0,1 16,8A4,4 0 0,1 12,12A4,4 0 0,1 8,8A4,4 0 0,1 12,4M12,14C16.42,14 20,15.79 20,18V20H4V18C4,15.79 7.58,14 12,14Z"/>
-                    </svg>
-                  )}
-                  {doc.name === 'Aadhar Card' && doc.id === 3 && (
-                    <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
-                      <path d="M12,12A4,4 0 0,0 16,8A4,4 0 0,0 12,4A4,4 0 0,0 8,8A4,4 0 0,0 12,12M12,14C9.33,14 4,15.33 4,18V20H20V18C20,15.33 14.67,14 12,14Z"/>
-                    </svg>
-                  )}
-                  {doc.name === 'Visa' && (
-                    <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
-                      <path d="M14,2H6A2,2 0 0,0 4,4V20A2,2 0 0,0 6,22H18A2,2 0 0,0 20,20V8L14,2M18,20H6V4H13V9H18V20Z"/>
-                    </svg>
-                  )}
+                <div className={`w-12 h-12 bg-gradient-to-br ${doc.color} rounded-lg flex items-center justify-center text-white text-xl`}>
+                  {doc.icon}
                 </div>
                 <div>
-                  <h3 className="font-semibold text-gray-800">{doc.name}</h3>
-                  <p className="text-sm text-gray-600">{doc.status}</p>
+                  <h3 className="font-semibold text-gray-800">{doc.title}</h3>
+                  <p className="text-sm text-gray-600">{doc.subtitle}</p>
                 </div>
               </div>
-              <button className="bg-green-100 text-green-800 px-4 py-2 rounded-lg text-sm font-semibold hover:bg-green-200 transition-colors">
+              <button 
+                onClick={() => handleViewDocument(doc)}
+                className="bg-green-100 text-green-800 px-4 py-2 rounded-lg text-sm font-semibold hover:bg-green-200 transition-colors"
+              >
                 View
               </button>
             </div>
@@ -120,9 +159,70 @@ const MyWallet = ({ onBack }) => {
 
       {/* Add New Document Button */}
       <div className="mb-6">
-        <button className="w-full bg-gradient-to-r from-[#FF8F00] to-[#FF6B35] text-white p-4 rounded-lg flex items-center justify-center gap-2 shadow-lg hover:shadow-xl transition-shadow">
+        <button 
+          onClick={handleAddDocument}
+          className="w-full bg-gradient-to-r from-[#FF8F00] to-[#FF6B35] text-white p-4 rounded-lg flex items-center justify-center gap-2 shadow-lg hover:shadow-xl transition-shadow"
+        >
           <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
-            <path d="M19,13H13V19H11V13H5V11H11V5H13V11H19V13Z"/>
+            <path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/>
+          </svg>
+          <span className="font-semibold">Add New Document</span>
+        </button>
+      </div>
+
+      {/* Quick Stats */}
+      <div className="grid grid-cols-2 gap-4">
+        <div className="bg-gradient-to-br from-blue-50 to-blue-100 p-4 rounded-lg text-center">
+          <div className="text-2xl font-bold text-blue-600 mb-1">{documents.filter(d => d.status === 'verified').length}</div>
+          <p className="text-sm font-medium text-gray-700">Verified</p>
+        </div>
+        <div className="bg-gradient-to-br from-orange-50 to-orange-100 p-4 rounded-lg text-center">
+          <div className="text-2xl font-bold text-orange-600 mb-1">{documents.filter(d => d.status === 'pending').length}</div>
+          <p className="text-sm font-medium text-gray-700">Pending</p>
+        </div>
+      </div>
+    </div>
+  );
+
+  const renderDocumentsView = () => (
+    <div className="pb-24">
+      {/* All Documents Grid */}
+      <div className="grid grid-cols-1 gap-4">
+        {documents.map((doc) => (
+          <div key={doc.id} className="bg-white rounded-lg p-4 flex items-center justify-between shadow-sm border border-gray-100 hover:shadow-md transition-shadow">
+            <div className="flex items-center gap-3">
+              <div className={`w-12 h-12 bg-gradient-to-br ${doc.color} rounded-lg flex items-center justify-center text-white text-xl`}>
+                {doc.icon}
+              </div>
+              <div>
+                <h3 className="font-semibold text-gray-800">{doc.title}</h3>
+                <p className="text-sm text-gray-600">{doc.subtitle}</p>
+                <div className="flex items-center gap-2 mt-1">
+                  <div className={`w-2 h-2 rounded-full ${doc.status === 'verified' ? 'bg-green-500' : 'bg-orange-500'}`}></div>
+                  <span className={`text-xs font-medium ${doc.status === 'verified' ? 'text-green-600' : 'text-orange-600'}`}>
+                    {doc.status === 'verified' ? 'Verified' : 'Pending'}
+                  </span>
+                </div>
+              </div>
+            </div>
+            <button 
+              onClick={() => handleViewDocument(doc)}
+              className="bg-green-100 text-green-800 px-4 py-2 rounded-lg text-sm font-semibold hover:bg-green-200 transition-colors"
+            >
+              View
+            </button>
+          </div>
+        ))}
+      </div>
+
+      {/* Add Document Button */}
+      <div className="mt-6">
+        <button 
+          onClick={handleAddDocument}
+          className="w-full bg-gradient-to-r from-[#FF8F00] to-[#FF6B35] text-white p-4 rounded-lg flex items-center justify-center gap-2 shadow-lg"
+        >
+          <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+            <path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/>
           </svg>
           <span className="font-semibold">Add New Document</span>
         </button>
@@ -130,134 +230,164 @@ const MyWallet = ({ onBack }) => {
     </div>
   );
 
-  const renderScrollableView = () => (
+  const renderDocumentViewer = () => (
     <div className="pb-24">
-      {/* Important Documents Section */}
-      <div className="mb-6">
-        <h2 className="text-lg font-semibold text-gray-800 mb-4">Important Documents</h2>
-        
-        <div className="space-y-3">
-          {documents.scrollable.map((doc) => (
-            <div key={doc.id} className="bg-white rounded-lg p-4 flex items-center justify-between shadow-sm border border-gray-200">
-              <div className="flex items-center gap-3">
-                <div className={`w-12 h-12 ${doc.color} rounded-lg flex items-center justify-center text-white`}>
-                  {doc.name === 'Travel Insurance' && (
-                    <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
-                      <path d="M14,2H6A2,2 0 0,0 4,4V20A2,2 0 0,0 6,22H18A2,2 0 0,0 20,20V8L14,2M18,20H6V4H13V9H18V20Z"/>
-                    </svg>
-                  )}
-                  {doc.name === 'Flight Insurance' && (
-                    <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
-                      <path d="M12,1L3,5V11C3,16.55 6.84,21.74 12,23C17.16,21.74 21,16.55 21,11V5L12,1M10,17L6,13L7.41,11.59L10,14.17L16.59,7.58L18,9L10,17Z"/>
-                    </svg>
-                  )}
-                  {doc.name === 'Flight Tickets' && (
-                    <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
-                      <path d="M21,16V14L13,9V3.5A1.5,1.5 0 0,0 11.5,2A1.5,1.5 0 0,0 10,3.5V9L2,14V16L10,13.5V19L8,20.5V22L11.5,21L15,22V20.5L13,19V13.5L21,16Z"/>
-                    </svg>
-                  )}
-                  {doc.name === 'Hotel Bookings' && (
-                    <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
-                      <path d="M19 3H5C3.9 3 3 3.9 3 5V19C3 20.1 3.9 21 5 21H19C20.1 21 21 20.1 21 19V5C21 3.9 20.1 3 19 3M19 19H5V8H19V19M16 10V12H14V10H16M12 10V12H10V10H12M16 13V15H14V13H16M12 13V15H10V13H12"/>
-                    </svg>
-                  )}
-                  {doc.name === 'Other Documents' && (
-                    <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
-                      <path d="M14,2H6A2,2 0 0,0 4,4V20A2,2 0 0,0 6,22H18A2,2 0 0,0 20,20V8L14,2M18,20H6V4H13V9H18V20Z"/>
-                    </svg>
-                  )}
-                </div>
-                <div>
-                  <h3 className="font-semibold text-gray-800">{doc.name}</h3>
-                  <p className="text-sm text-gray-600">{doc.status}</p>
-                </div>
-              </div>
-              <button className="bg-green-100 text-green-800 px-4 py-2 rounded-lg text-sm font-semibold hover:bg-green-200 transition-colors">
-                View
-              </button>
+      <div className="bg-white rounded-lg p-6 shadow-lg">
+        <div className="flex items-center gap-4 mb-6">
+          <div className={`w-16 h-16 bg-gradient-to-br ${selectedDocument.color} rounded-lg flex items-center justify-center text-white text-2xl`}>
+            {selectedDocument.icon}
+          </div>
+          <div>
+            <h2 className="text-xl font-bold text-gray-800">{selectedDocument.title}</h2>
+            <div className="flex items-center gap-2">
+              <div className={`w-3 h-3 rounded-full ${selectedDocument.status === 'verified' ? 'bg-green-500' : 'bg-orange-500'}`}></div>
+              <span className={`font-medium ${selectedDocument.status === 'verified' ? 'text-green-600' : 'text-orange-600'}`}>
+                {selectedDocument.status === 'verified' ? 'Verified' : 'Pending Verification'}
+              </span>
+            </div>
+          </div>
+        </div>
+
+        {/* Document Details */}
+        <div className="space-y-4">
+          {Object.entries(selectedDocument.details).map(([key, value]) => (
+            <div key={key} className="flex justify-between py-2 border-b border-gray-100">
+              <span className="font-medium text-gray-600 capitalize">{key}:</span>
+              <span className="text-gray-800">{value}</span>
             </div>
           ))}
         </div>
-      </div>
 
-      {/* Additional Features */}
-      <div className="space-y-4">
-        <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
-          <h3 className="font-semibold text-blue-800 mb-2">🔐 Secure Storage</h3>
-          <p className="text-sm text-blue-700">All documents are encrypted and stored securely on blockchain technology.</p>
-        </div>
-        
-        <div className="bg-green-50 border border-green-200 rounded-lg p-4">
-          <h3 className="font-semibold text-green-800 mb-2">📱 Offline Access</h3>
-          <p className="text-sm text-green-700">Access your important documents even without internet connection.</p>
-        </div>
-
-        <div className="bg-orange-50 border border-orange-200 rounded-lg p-4">
-          <h3 className="font-semibold text-orange-800 mb-2">🌍 Global Recognition</h3>
-          <p className="text-sm text-orange-700">Digital documents accepted at major airports and government offices.</p>
+        {/* Actions */}
+        <div className="flex gap-3 mt-6">
+          <button className="flex-1 bg-blue-100 text-blue-800 py-3 rounded-lg font-semibold hover:bg-blue-200 transition-colors">
+            Download
+          </button>
+          <button className="flex-1 bg-green-100 text-green-800 py-3 rounded-lg font-semibold hover:bg-green-200 transition-colors">
+            Share
+          </button>
         </div>
       </div>
     </div>
   );
 
+  const renderAddForm = () => (
+    <div className="pb-24">
+      <div className="bg-white rounded-lg p-6 shadow-lg">
+        <h2 className="text-xl font-bold text-gray-800 mb-6">Add New Document</h2>
+        
+        <form className="space-y-4">
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-2">Document Type</label>
+            <select className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent">
+              <option>Select document type</option>
+              <option>Passport</option>
+              <option>Visa</option>
+              <option>Driving License</option>
+              <option>Insurance</option>
+              <option>Tickets</option>
+              <option>Other</option>
+            </select>
+          </div>
+
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-2">Document Name</label>
+            <input 
+              type="text" 
+              placeholder="Enter document name"
+              className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent"
+            />
+          </div>
+
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-2">Upload Document</label>
+            <div className="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center hover:border-orange-400 transition-colors">
+              <svg className="w-12 h-12 text-gray-400 mx-auto mb-4" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M14,2H6A2,2 0 0,0 4,4V20A2,2 0 0,0 6,22H18A2,2 0 0,0 20,20V8L14,2M18,20H6V4H13V9H18V20Z"/>
+              </svg>
+              <p className="text-gray-600">Click to upload or drag and drop</p>
+              <p className="text-sm text-gray-500 mt-1">PDF, JPG, PNG up to 10MB</p>
+            </div>
+          </div>
+
+          <div className="flex gap-3 pt-4">
+            <button 
+              type="button"
+              onClick={() => setShowAddForm(false)}
+              className="flex-1 bg-gray-100 text-gray-800 py-3 rounded-lg font-semibold hover:bg-gray-200 transition-colors"
+            >
+              Cancel
+            </button>
+            <button 
+              type="submit"
+              className="flex-1 bg-gradient-to-r from-[#FF8F00] to-[#FF6B35] text-white py-3 rounded-lg font-semibold hover:shadow-lg transition-shadow"
+            >
+              Add Document
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  );
+
   return (
-    <div className="h-full overflow-y-auto bg-gradient-to-b from-[#FF8F00] to-[#FF6B35]" style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
+    <div className="h-full overflow-y-auto bg-gray-50" style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
       
-      {/* Sticky Header */}
-      <div className="sticky top-0 bg-gradient-to-r from-[#FF8F00] to-[#FF6B35] z-10 p-4 pt-6">
+      {/* Header */}
+      <div className="bg-gradient-to-r from-[#FF8F00] to-[#FF6B35] p-4 pt-6">
         <div className="flex items-center justify-between mb-4">
           <div className="flex items-center gap-3">
             <button 
-              onClick={onBack}
+              onClick={() => {
+                if (selectedDocument) setSelectedDocument(null);
+                else if (showAddForm) setShowAddForm(false);
+                else onBack();
+              }}
               className="w-8 h-8 bg-white/20 rounded-full flex items-center justify-center"
             >
               <svg className="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 24 24">
                 <path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/>
               </svg>
             </button>
-            <div>
-              <span className="text-white font-bold text-lg">RAAHI</span>
-              <p className="text-white/80 text-sm">My Wallet</p>
-            </div>
-          </div>
-          <div className="flex items-center gap-2">
-            <div className="w-6 h-6 text-white">₹</div>
-            <div className="flex flex-col justify-between w-6 h-4">
-              <div className="w-full h-[2px] bg-white rounded-full"></div>
-              <div className="w-full h-[2px] bg-white rounded-full"></div>
-              <div className="w-full h-[2px] bg-white rounded-full"></div>
+            <div className="text-white">
+              <h1 className="font-bold text-lg">My Wallet</h1>
+              <p className="text-white/80 text-sm">Secure document storage</p>
             </div>
           </div>
         </div>
 
-        {/* View Toggle */}
-        <div className="flex gap-2">
-          <button
-            onClick={() => setCurrentView('main')}
-            className={`px-4 py-2 rounded-full text-sm font-medium transition-colors ${
-              currentView === 'main'
-                ? 'bg-white/25 text-white'
-                : 'bg-white/10 text-white/80 hover:bg-white/20'
-            }`}
-          >
-            My Wallet (Main View)
-          </button>
-          <button
-            onClick={() => setCurrentView('scrollable')}
-            className={`px-4 py-2 rounded-full text-sm font-medium transition-colors ${
-              currentView === 'scrollable'
-                ? 'bg-white/25 text-white'
-                : 'bg-white/10 text-white/80 hover:bg-white/20'
-            }`}
-          >
-            My Wallet (Scrollable View)
-          </button>
-        </div>
+        {/* View Toggle - Only show when not viewing document or add form */}
+        {!selectedDocument && !showAddForm && (
+          <div className="flex gap-2">
+            <button
+              onClick={() => setCurrentView('main')}
+              className={`px-4 py-2 rounded-full text-sm font-medium transition-colors ${
+                currentView === 'main'
+                  ? 'bg-white/25 text-white'
+                  : 'bg-white/10 text-white/80 hover:bg-white/20'
+              }`}
+            >
+              Main View
+            </button>
+            <button
+              onClick={() => setCurrentView('documents')}
+              className={`px-4 py-2 rounded-full text-sm font-medium transition-colors ${
+                currentView === 'documents'
+                  ? 'bg-white/25 text-white'
+                  : 'bg-white/10 text-white/80 hover:bg-white/20'
+              }`}
+            >
+              All Documents
+            </button>
+          </div>
+        )}
       </div>
 
       {/* Content */}
-      <div className="bg-white rounded-t-[25px] px-4 pt-6 min-h-full">
-        {currentView === 'main' ? renderMainView() : renderScrollableView()}
+      <div className="p-4">
+        {showAddForm ? renderAddForm() : 
+         selectedDocument ? renderDocumentViewer() :
+         currentView === 'main' ? renderMainView() : renderDocumentsView()}
       </div>
 
       {/* Fixed Bottom Navigation */}
@@ -272,14 +402,14 @@ const MyWallet = ({ onBack }) => {
             <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/>
           </svg>
         </div>
+        <div className="w-12 h-12 rounded-full flex items-center justify-center">
+          <svg className="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 24 24">
+            <path d="M1 9l2 2c4.97-4.97 13.03-4.97 18 0l2-2C16.93 2.93 7.07 2.93 1 9zm8 8l3 3 3-3c-1.65-1.66-4.34-1.66-6 0zm-4-4l2 2c2.76-2.76 7.24-2.76 10 0l2-2C15.14 9.14 8.87 9.14 5 13z"/>
+          </svg>
+        </div>
         <div className="w-12 h-12 rounded-full bg-white/25 backdrop-blur-sm flex items-center justify-center shadow-lg">
           <svg className="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 24 24">
             <path d="M21 18v1c0 1.1-.9 2-2 2H5c-1.11 0-2-.9-2-2V5c0-1.1.89-2 2-2h14c1.1 0 2 .9 2 2v1h-9c-1.11 0-2 .9-2 2v8c0 1.1.89 2 2 2h9zm-9-2h10V8H12v8zm4-2.5c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5z"/>
-          </svg>
-        </div>
-        <div className="w-12 h-12 rounded-full flex items-center justify-center">
-          <svg className="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 24 24">
-            <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4z"/>
           </svg>
         </div>
       </nav>
