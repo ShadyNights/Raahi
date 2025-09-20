@@ -1,9 +1,10 @@
-// src/components/MyWallet.js - Complete Wallet with Document Management
+// src/components/MyWallet.js - Fixed unused variable
 import React, { useState } from 'react';
 
 const MyWallet = ({ onBack }) => {
   const [currentView, setCurrentView] = useState('main'); // 'main' or 'documents'
-  const [documents, setDocuments] = useState([
+  // Removed setDocuments and made documents read-only to fix ESLint error
+  const documents = [ // Changed from const [documents, setDocuments] = useState([
     {
       id: 1,
       type: 'passport',
@@ -114,7 +115,7 @@ const MyWallet = ({ onBack }) => {
         type: 'Various'
       }
     }
-  ]);
+  ];
 
   const [selectedDocument, setSelectedDocument] = useState(null);
   const [showAddForm, setShowAddForm] = useState(false);
@@ -127,6 +128,7 @@ const MyWallet = ({ onBack }) => {
     setSelectedDocument(doc);
   };
 
+  // Rest of the component remains the same...
   const renderMainView = () => (
     <div className="pb-24">
       {/* Important Documents Header */}
