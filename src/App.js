@@ -1,5 +1,5 @@
 // src/App.js - Complete with Full-Page Hamburger Menu
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import './App.css';
 
 // Import all components
@@ -381,7 +381,11 @@ const App = () => {
           <div className="grid grid-cols-1 gap-4">
             
             <button
-              onClick={() => alert('RAAHI Travel App v2.0.0\n\nYour trusted companion for safe travel in India.\n\nDeveloped with ❤️ for travelers worldwide.')}
+              onClick={() => alert(`RAAHI Travel App v2.0.0
+
+Your trusted companion for safe travel in India.
+
+Developed with ❤️ for travelers worldwide.`)}
               className="bg-white/10 backdrop-blur-sm rounded-xl p-4 flex items-center gap-4 hover:bg-white/20 transition-all"
             >
               <div className="w-12 h-12 bg-white/20 rounded-full flex items-center justify-center">
@@ -397,7 +401,13 @@ const App = () => {
             </button>
 
             <button
-              onClick={() => alert('Contact RAAHI Support\n\n📧 Email: support@raahi.com\n📞 Phone: +91-1800-RAAHI\n🌐 Website: www.raahi.com\n\nWe\'re here to help 24/7!')}
+              onClick={() => alert(`Contact RAAHI Support
+
+📧 Email: support@raahi.com
+📞 Phone: +91-1800-RAAHI
+🌐 Website: www.raahi.com
+
+We're here to help 24/7!`)}
               className="bg-white/10 backdrop-blur-sm rounded-xl p-4 flex items-center gap-4 hover:bg-white/20 transition-all"
             >
               <div className="w-12 h-12 bg-white/20 rounded-full flex items-center justify-center">
